@@ -1,0 +1,11 @@
+/* 기본 라이트 모드 스타일 */
+.dark {
+  background-color: #000000;
+  color: #FFFFFF;
+  transition: background-color 0.3s, color 0.3s;
+}
+.light {
+  background-color: #FFFFFF;
+  color: #000000;
+  transition: background-color 0.3s, color 0.3s;
+}

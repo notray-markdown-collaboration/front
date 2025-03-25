@@ -1,0 +1,80 @@
+//main/background.ts
+import { app, ipcMain, Menu, nativeTheme } from 'electron';
+import serve from 'electron-serve';
+import { createWindow } from './helpers';
+import electronLocalshortcut from 'electron-localshortcut';
+import path from 'path'
+
+const isProd: boolean = process.env.NODE_ENV === 'production';
+
+if (isProd) {
+  serve({ directory: 'app' });
+} else {
+  app.setPath('userData', `${app.getPath('userData')} (development)`);
+}
+
+(async () => {
+  await app.whenReady();
+
+  const mainWindow = createWindow('main', {
+    width: 1000,
+    height: 600,
+    webPreferences: {
+      preload: path.join(__dirname, 'preload.js'),
+    },
+    frame: true, // 해더 숨기기 
+    // titleBarStyle: 'hidden'// 해더 숨기기 
+  });
+  // const menu =  // 해더 커스텀
+  // Menu.buildFromTemplate([
+  //   {
+  //     label: 'File',
+  //     submenu: [
+  //       { label: 'Open' },
+  //       { label: 'Save' },
+  //       { type: 'separator' },
+  //       { label: 'Quit', role: 'quit' },
+  //     ],
+  //   },
+  //   {
+  //     label: 'Edit',
+  //     submenu: [
+  //       { label: 'Undo', role: 'undo' },
+  //       { label: 'Redo', role: 'redo' },
+  //     ],
+  //   },
+  // ]);
+  // Menu.setApplicationMenu(menu);
+  Menu.setApplicationMenu(null);
+
+  if (isProd) {
+    await mainWindow.loadURL('app://./home.html');
+  } else {
+    const port = process.argv[2];
+    await mainWindow.loadURL(`http://localhost:${port}`);
+    mainWindow.webContents.openDevTools();
+  }
+
+  electronLocalshortcut.register(mainWindow, 'F12', () => {
+    console.log('toggleDevTools');
+    mainWindow.webContents.toggleDevTools();
+  });
+  ipcMain.handle('dark-mode:toggle', () => {
+    const isDarkMode = nativeTheme.shouldUseDarkColors;
+    const newTheme = isDarkMode ? 'light' : 'dark';
+    nativeTheme.themeSource = newTheme; // 다크/라이트 모드 변경
+    return newTheme;
+  });
+
+  nativeTheme.on('updated', () => {
+    mainWindow.webContents.send('dark-mode-changed', nativeTheme.shouldUseDarkColors ? 'dark' : 'light');
+  });
+  
+  // 초기 시스템 테마 상태 전달
+  mainWindow.webContents.on('did-finish-load', () => {
+    mainWindow.webContents.send('dark-mode-changed', nativeTheme.shouldUseDarkColors ? 'dark' : 'light');
+  });
+})();
+app.on('window-all-closed', () => {
+  app.quit(); 
+});
