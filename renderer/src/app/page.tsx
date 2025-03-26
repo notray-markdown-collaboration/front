@@ -1,43 +1,34 @@
-'use client'
-import Link from 'next/link'
-import Image from 'next/image'
-import { Fragment, useEffect, useState } from 'react'
+"use client";
+
+import Link from "next/link";
+import Image from "next/image";
+import { useEffect } from "react";
+import useThemeStore from "./store/themeStore";
 import "./globals.css";
+
 export default function HomePage() {
-  const [isDarkMode, setIsDarkMode] = useState<boolean>(false);
+  const { theme, setTheme } = useThemeStore();
 
   useEffect(() => {
-    // 시스템 테마가 변경될 때마다 호출되는 함수
-    const handleDarkModeChange = (theme: string) => {
-      setIsDarkMode(theme === 'dark');
-    };
+    window.ipc.invoke("dark-mode:current").then((sysTheme) => {
+      setTheme(sysTheme === "dark" ? "dark" : "light");
+    });
 
-    // 다크 모드 변경 이벤트를 리스닝
-    window.ipc.onDarkModeChanged(handleDarkModeChange);
+    window.ipc.onDarkModeChanged((t: string) => {
+      setTheme(t === "dark" ? "dark" : "light");
+    });
+  }, [setTheme]);
 
-    // 초기 테마 상태를 확인
-    window.ipc.onDarkModeChanged(handleDarkModeChange);
-
-    return () => {
-      // 컴포넌트가 unmount될 때 이벤트 리스너 제거
-      window.ipc.onDarkModeChanged(() => {});
-    };
-  }, []);
-  const toggleDarkMode = async () => {
-    try {
-      // 다크 모드 전환
-      const theme = await window.ipc.invoke('dark-mode:toggle');
-      console.log(theme)
-      setIsDarkMode(theme === 'dark');
-    } catch (error) {
-      console.error('Failed to toggle dark mode:', error);
-    }
+  const handleToggle = async () => {
+    const result = await window.ipc.invoke("dark-mode:toggle");
+    setTheme(result === "dark" ? "dark" : "light");
   };
+
   return (
-    <main >
-      <div className={isDarkMode ? 'dark': 'light'}>
+    <main>
+      <div>
         <p>
-          ⚡ Electron + Next.js ⚡ -<Link href="/next">Go to next page</Link>
+          ⚡ Electron + Next.js ⚡ - <Link href="/next">Go to next page</Link>
         </p>
         <Image
           src="/images/logo.png"
@@ -47,13 +38,9 @@ export default function HomePage() {
         />
       </div>
       <div>
-        <button
-          onClick={()=>{toggleDarkMode()}}
-        >
-          Test IPC
-        </button>
-        <p>{isDarkMode ? 'Dark Mode' : 'Light Mode'}</p>
+        <button onClick={handleToggle}>Toggle Dark Mode</button>
+        <p>{theme === "dark" ? "Dark Mode" : "Light Mode"}</p>
       </div>
     </main>
-  )
+  );
 }

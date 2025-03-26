@@ -1,7 +1,7 @@
 {
-  // "baseUrl": "./src",
   "extends": "../tsconfig.json",  // 기본 설정을 상속
   "compilerOptions": {
+    "baseUrl": "./src",
     "moduleResolution": "bundler",
     "plugins": [
       {

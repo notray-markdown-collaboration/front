@@ -1,5 +1,6 @@
 import Head from "next/head";
 import "./globals.css";
+import BodyThemeProvider from "./provider/BodyThemeProvider";
 
 export default function RootLayout({
   children,
@@ -8,12 +9,13 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="ko">
-              <Head>
+      <Head>
         <title>notary</title>
       </Head>
-        <body>
-            {children}
-        </body>
+      <body>
+        <BodyThemeProvider />
+        {children}
+      </body>
     </html>
   );
 }
