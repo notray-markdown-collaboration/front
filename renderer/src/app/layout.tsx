@@ -1,6 +1,6 @@
 import Head from "next/head";
 import "./globals.css";
-import BodyThemeProvider from "./provider/BodyThemeProvider";
+import BodyThemeProvider from "./_provider/BodyThemeProvider";
 
 export default function RootLayout({
   children,
