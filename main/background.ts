@@ -1,5 +1,5 @@
 //main/background.ts
-import { app, ipcMain, Menu, nativeTheme } from "electron";
+import { app, ipcMain, Menu, nativeTheme, shell } from "electron";
 import serve from "electron-serve";
 import { createWindow } from "./helpers";
 import electronLocalshortcut from "electron-localshortcut";
@@ -87,6 +87,10 @@ if (isProd) {
       "dark-mode-changed",
       nativeTheme.shouldUseDarkColors ? "dark" : "light"
     );
+  });
+
+  ipcMain.on("loadUrl", (event, arg) => {
+    shell.openExternal(arg);
   });
 })();
 

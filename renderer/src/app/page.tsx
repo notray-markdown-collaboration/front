@@ -8,13 +8,6 @@ import "./globals.css";
 import Start from "./_components/start/start";
 
 export default function HomePage() {
-  const { theme, setTheme } = useThemeStore();
-
-  const handleToggle = async () => {
-    const result = await window.ipc.invoke("dark-mode:toggle");
-    setTheme(result === "dark" ? "dark" : "light");
-  };
-
   return (
     <main style={{ height: "100%" }}>
       <Start />

@@ -11,6 +11,10 @@ export default function RootLayout({
     <html lang="ko">
       <Head>
         <title>notary</title>
+        <meta
+          httpEquiv="Content-Security-Policy"
+          content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline';"
+        />
       </Head>
       <body>
         <BodyThemeProvider />
