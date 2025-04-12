@@ -10,8 +10,20 @@
     "build": "nextron build",
     "postinstall": "electron-builder install-app-deps"
   },
+  "build": {
+    "appId": "com.mindlee.nextron",
+    "protocols": [
+      {
+        "name": "Nextron Custom Protocol",
+        "schemes": [
+          "notray"
+        ]
+      }
+    ]
+  },
   "dependencies": {
     "@uiw/react-md-editor": "^4.0.5",
+    "axios": "^1.8.4",
     "electron-localshortcut": "^3.2.1",
     "electron-serve": "^1.3.0",
     "electron-store": "^8.2.0",
