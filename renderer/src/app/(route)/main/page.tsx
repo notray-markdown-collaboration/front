@@ -4,6 +4,7 @@ import Image from "next/image";
 import { Fragment, useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import styles from "./page.module.css";
+import { SwitchWindow } from "app/_types/switch";
 export default function HomePage() {
   const [value, setValue] = useState("**Hello world!!!**");
   const onChangeValue = (e: string | undefined) => {
@@ -12,14 +13,19 @@ export default function HomePage() {
   };
 
   const onClickLogout = () => {
+    const param: SwitchWindow = {
+      width: 700,
+      height: 420,
+      uri: "start",
+    };
     window.ipc.invoke("deleteStore", "refreshToken");
-    window.ipc.send("switch-to-start");
+    window.ipc.send("switch-window", param);
   };
 
   return (
     <div className={styles.wrapper}>
       <header className={styles.header}>
-        <div className={styles.logo}>
+        <div className={styles.logo} onClick={onClickLogout}>
           <img
             src="https://ai-public.creatie.ai/gen_page/logo_placeholder.png"
             alt="MarkCollab"

@@ -9,6 +9,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import useAuthStore from "app/_store/useAuthStore";
 import { useEffect } from "react";
+import { SwitchWindow } from "app/_types/switch";
 export default function Start() {
   const { theme, setTheme } = useThemeStore();
   const router = useRouter();
@@ -28,7 +29,12 @@ export default function Start() {
       console.log("✅ 토큰 수신:", accessToken, refreshToken);
       setAccessToken(accessToken);
       setRefreshToken(refreshToken);
-      window.ipc.send("switch-to-main");
+      const param: SwitchWindow = {
+        width: 1280,
+        height: 720,
+        uri: "main",
+      };
+      window.ipc.send("switch-window", param);
     });
 
     return () => {
@@ -42,12 +48,17 @@ export default function Start() {
   };
 
   const onSubmitGoogleLogin = () => {
-    // window.ipc.invoke("setStore", {
-    //   key: "refreshToken",
-    //   value:
-    //     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiY2tzYWxzMTAxNEBnbWFpbC5jb20iLCJuYW1lIjoi7LSI7J207YyM7L2UIiwiaWF0IjoxNzQ0NDUyMDU3LCJleHAiOjE3NDU2NjE2NTd9.DLloSgS1Vpo3_gPr8x_rNxp7usNCMapUIISu2aqDJtY",
-    // });
-    // window.ipc.send("switch-to-main");
+    const param: SwitchWindow = {
+      width: 1280,
+      height: 720,
+      uri: "main",
+    };
+    window.ipc.invoke("setStore", {
+      key: "refreshToken",
+      value:
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiY2tzYWxzMTAxNEBnbWFpbC5jb20iLCJuYW1lIjoi7LSI7J207YyM7L2UIiwiaWF0IjoxNzQ0NDUyMDU3LCJleHAiOjE3NDU2NjE2NTd9.DLloSgS1Vpo3_gPr8x_rNxp7usNCMapUIISu2aqDJtY",
+    });
+    window.ipc.send("switch-window", param);
     window.ipc.send(
       "loadUrl",
       `${process.env.NEXT_PUBLIC_API_KEY}/api/auth/google`
