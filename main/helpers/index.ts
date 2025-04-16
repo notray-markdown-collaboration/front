@@ -49,7 +49,14 @@ export default function Main(
             },
             frame: true,
         });
-
+        if (!refreshToken) {
+            mainWindow.resizable = false;
+        } else {
+            mainWindow.maximize();
+        }
+        if (initialPage === "start") {
+            mainWindow.center();
+        }
         Menu.setApplicationMenu(null);
 
         if (isProd) {
