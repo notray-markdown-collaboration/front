@@ -4,7 +4,7 @@ import { app, Menu, BrowserWindow } from "electron";
 import path from "path";
 import Store from "electron-store";
 import handleDeeplink from "./utils/deeplink";
-
+import windowState from "electron-window-state";
 export default function Main(
     mainWindow: BrowserWindow | null,
     isProd: boolean,
