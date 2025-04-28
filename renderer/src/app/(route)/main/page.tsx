@@ -5,11 +5,11 @@ import { Fragment, useEffect, useState } from "react";
 import ReactMarkdown from "react-markdown";
 import styles from "./page.module.css";
 import { SwitchWindow } from "app/_types/switch";
+import { useRouter } from "next/navigation";
 export default function HomePage() {
-  const [value, setValue] = useState("**Hello world!!!**");
-  const onChangeValue = (e: string | undefined) => {
-    if (!e) return;
-    setValue(e);
+  const router = useRouter();
+  const test = () => {
+    router.push("/edit");
   };
 
   const onClickLogout = () => {
@@ -41,7 +41,9 @@ export default function HomePage() {
       <div className={styles.content}>
         <div className={styles.toolbar}>
           <div className={styles.filters}>
-            <button className={styles.active}>전체</button>
+            <button className={styles.active} onClick={test}>
+              전체
+            </button>
             <button className={styles.inactive}>개인</button>
             <button className={styles.inactive}>그룹</button>
             <button className={styles.inactive}>즐겨찾기</button>
