@@ -8,6 +8,7 @@ import { SwitchWindow } from "app/_types/switch";
 import { useRouter } from "next/navigation";
 export default function HomePage() {
   const router = useRouter();
+
   const test = () => {
     router.push("/edit");
   };
@@ -17,6 +18,7 @@ export default function HomePage() {
       width: 700,
       height: 420,
       uri: "start",
+      isFixed: true,
     };
     window.ipc.invoke("deleteStore", "refreshToken");
     window.ipc.send("switch-window", param);

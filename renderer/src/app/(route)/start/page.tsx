@@ -1,6 +1,6 @@
 "use client";
 import useThemeStore from "app/_store/themeStore";
-import styles from "./start.module.css";
+import styles from "./page.module.css";
 import github from "../../../../public/images/githubWhite.svg";
 import google from "../../../../public/images/google.svg";
 import setting from "../../../../public/images/setting.svg";
@@ -33,6 +33,7 @@ export default function Start() {
         width: 1280,
         height: 720,
         uri: "main",
+        isFullScreen: true,
       };
       window.ipc.send("switch-window", param);
     });
@@ -52,6 +53,7 @@ export default function Start() {
       width: 1280,
       height: 720,
       uri: "main",
+      isFullScreen: true,
     };
     window.ipc.invoke("setStore", {
       key: "refreshToken",
@@ -59,6 +61,7 @@ export default function Start() {
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiY2tzYWxzMTAxNEBnbWFpbC5jb20iLCJuYW1lIjoi7LSI7J207YyM7L2UIiwiaWF0IjoxNzQ0NDUyMDU3LCJleHAiOjE3NDU2NjE2NTd9.DLloSgS1Vpo3_gPr8x_rNxp7usNCMapUIISu2aqDJtY",
     });
     window.ipc.send("switch-window", param);
+
     window.ipc.send(
       "loadUrl",
       `${process.env.NEXT_PUBLIC_API_KEY}/api/auth/google`
