@@ -1,0 +1,80 @@
+.wrapper {
+  padding: 1rem;
+  max-width: 800px;
+  margin: auto;
+  background-color: #1e1e1e;
+  border-radius: 8px;
+}
+
+.textarea {
+  width: 100%;
+  background-color: transparent;
+  border: none;
+  color: #fff;
+  font-size: 1rem;
+  font-family: monospace;
+  padding: 0;
+  line-height: 1.5;
+  resize: none;
+  outline: none;
+  overflow: hidden;
+  height: 1.5em;
+}
+
+.markdownLine {
+  color: #fff;
+  font-size: 1rem;
+  font-family: monospace;
+  line-height: 1.5;
+  cursor: text;
+  white-space: pre-wrap;
+  margin-bottom: 0.25rem;
+}
+
+.markdownLine h1,
+.markdownLine h2,
+.markdownLine h3,
+.markdownLine p {
+  margin: 0;
+  line-height: 1;
+}
+
+.markdownLine {
+  color: #f8f8f2;
+  font-family: "Fira Code", monospace;
+  font-size: 1rem;
+  line-height: 1.6;
+  padding: 0.2rem 0;
+  cursor: text;
+  white-space: pre-wrap;
+}
+
+/* 제목 스타일 명확하게 */
+.markdownLine h1 {
+  font-size: 1.8rem;
+  margin: 0.5rem 0;
+  color: #ff79c6;
+}
+.markdownLine h2 {
+  font-size: 1.4rem;
+  margin: 0.4rem 0;
+  color: #bd93f9;
+}
+.markdownLine h3 {
+  font-size: 1.2rem;
+  margin: 0.3rem 0;
+  color: #8be9fd;
+}
+
+/* 인라인 코드 강조 */
+.markdownLine code {
+  background-color: #2d2d2d;
+  padding: 0.1rem 0.3rem;
+  border-radius: 4px;
+  color: #f1fa8c;
+}
+
+/* 코드블럭 내부 <pre> reset 방지용 */
+.markdownLine pre {
+  margin: 0;
+}

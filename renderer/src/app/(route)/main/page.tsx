@@ -9,8 +9,11 @@ import { useRouter } from "next/navigation";
 export default function HomePage() {
   const router = useRouter();
 
-  const test = () => {
+  const edit = () => {
     router.push("/edit");
+  };
+  const test = () => {
+    router.push("/editTest");
   };
 
   const onClickLogout = () => {
@@ -43,10 +46,12 @@ export default function HomePage() {
       <div className={styles.content}>
         <div className={styles.toolbar}>
           <div className={styles.filters}>
-            <button className={styles.active} onClick={test}>
+            <button className={styles.active} onClick={edit}>
               전체
             </button>
-            <button className={styles.inactive}>개인</button>
+            <button className={styles.inactive} onClick={test}>
+              개인
+            </button>
             <button className={styles.inactive}>그룹</button>
             <button className={styles.inactive}>즐겨찾기</button>
           </div>
