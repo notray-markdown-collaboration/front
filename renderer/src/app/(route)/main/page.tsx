@@ -15,6 +15,9 @@ export default function HomePage() {
   const test = () => {
     router.push("/editTest");
   };
+  const group = () => {
+    router.push("/group");
+  }
 
   const onClickLogout = () => {
     const param: SwitchWindow = {
@@ -75,7 +78,7 @@ export default function HomePage() {
 
         <div className={styles.grid}>
           {[1, 2, 3, 4].map((_, i) => (
-            <div className={styles.card} key={i}>
+            <div className={styles.card} key={i} onClick={group}>
               <div className={styles.cardHeader}>
                 <span className={styles.tag}>
                   {i % 2 === 0 ? "그룹" : "개인"}

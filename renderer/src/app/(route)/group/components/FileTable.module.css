@@ -1,0 +1,112 @@
+
+.wrapper {
+  border-radius: 0.5rem;
+  overflow: hidden;
+  border-width: 1px;
+}
+
+.borderLight {
+  border-color: #e5e7eb; /* gray-200 */
+}
+
+.borderDark {
+  border-color: #374151; /* gray-700 */
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+.theadLight {
+  background-color: #f9fafb; /* gray-50 */
+}
+
+.theadDark {
+  background-color: #1f2937; /* gray-800 */
+}
+
+.th {
+  padding: 0.75rem 1.5rem;
+  text-align: left;
+  font-size: 0.75rem;
+  font-weight: 500;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.right {
+  text-align: right;
+}
+
+.tbodyLight tr + tr {
+  border-top: 1px solid #e5e7eb; /* gray-200 */
+}
+.tbodyDark tr + tr {
+  border-top: 1px solid #374151; /* gray-700 */
+}
+
+.trLight:hover {
+  background-color: #f9fafb; /* gray-50 */
+}
+
+.trDark:hover {
+  background-color: #1f2937; /* gray-800 */
+}
+
+.tdName {
+  font-weight: 500;
+  font-size: 1rem;
+}
+
+.td {
+  padding: 1rem 1.5rem;
+  white-space: nowrap;
+  font-size: 0.875rem;
+}
+
+.nameCell {
+  display: flex;
+  align-items: center;
+}
+
+.icon {
+  margin-right: 0.75rem;
+  font-size: 1rem;
+}
+
+.iconWord {
+  color: #3b82f6; /* blue-500 */
+}
+
+.iconPdf {
+  color: #ef4444; /* red-500 */
+}
+
+.iconPpt {
+  color: #f97316; /* orange-500 */
+}
+
+.iconXls {
+  color: #22c55e; /* green-500 */
+}
+
+.iconZip {
+  color: #a855f7; /* purple-500 */
+}
+
+.iconImg {
+  color: #14b8a6; /* teal-500 */
+}
+
+.iconDefault {
+  color: #6b7280; /* gray-500 */
+}
+
+.actionBtn {
+  color: #9ca3af; /* text-gray-400 */
+  cursor: pointer;
+}
+.actionBtn:hover {
+  color: #6b7280; /* text-gray-500 */
+}

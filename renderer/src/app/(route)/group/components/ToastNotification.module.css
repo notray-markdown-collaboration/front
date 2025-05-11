@@ -1,0 +1,79 @@
+.toast {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  max-width: 20rem;
+  border-radius: 0.5rem;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  display: flex;
+  padding: 1rem;
+  transition: transform 0.3s ease;
+  transform: translateY(0);
+  border: 1px solid;
+}
+
+.light {
+  background-color: #ffffff;
+  border-color: #e5e7eb;
+}
+
+.dark {
+  background-color: #1f2937;
+  border-color: #374151;
+}
+
+.iconWrapper {
+  flex-shrink: 0;
+  margin-right: 0.75rem;
+}
+
+.iconCircle {
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  background-color: #d1fae5;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.dark .iconCircle {
+  background-color: #064e3b;
+}
+
+.iconCheck {
+  color: #10b981;
+}
+
+.dark .iconCheck {
+  color: #6ee7b7;
+}
+
+.content {
+  flex: 1;
+}
+
+.title {
+  font-weight: 500;
+}
+
+.message {
+  font-size: 0.875rem;
+  margin-top: 0.25rem;
+}
+
+.time {
+  font-size: 0.75rem;
+  color: #9ca3af;
+  margin-top: 0.5rem;
+}
+
+.closeButton {
+  margin-left: 1rem;
+  color: #9ca3af;
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  color: #6b7280;
+}

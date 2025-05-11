@@ -1,0 +1,104 @@
+.gridWrapper {
+  display: grid;
+  grid-template-columns: repeat(1, minmax(0, 1fr));
+  gap: 1rem;
+}
+
+@media (min-width: 640px) {
+  .gridWrapper {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 768px) {
+  .gridWrapper {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .gridWrapper {
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+  }
+}
+
+.card {
+  padding: 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border-width: 1px;
+}
+
+.cardLight {
+  border-color: #e5e7eb;
+}
+
+.cardLight:hover {
+  background-color: #f9fafb;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.08);
+}
+
+.cardDark {
+  border-color: #374151;
+}
+
+.cardDark:hover {
+  background-color: #1f2937;
+  box-shadow: 0 1px 3px rgba(255, 255, 255, 0.05);
+}
+
+.iconRow {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+.icon {
+  font-size: 1.875rem;
+}
+
+.filename {
+  font-weight: 500;
+  text-align: center;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.meta {
+  font-size: 0.75rem;
+  text-align: center;
+}
+
+.metaLight {
+  color: #6b7280;
+}
+
+.metaDark {
+  color: #9ca3af;
+}
+
+/* 아이콘 색상 클래스 */
+.textBlue {
+  color: #3b82f6;
+}
+.textRed {
+  color: #ef4444;
+}
+.textOrange {
+  color: #f97316;
+}
+.textGreen {
+  color: #10b981;
+}
+.textPurple {
+  color: #8b5cf6;
+}
+.textTeal {
+  color: #14b8a6;
+}
+.textGray {
+  color: #9ca3af;
+}
