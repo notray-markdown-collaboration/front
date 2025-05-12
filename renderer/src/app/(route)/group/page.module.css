@@ -1,14 +1,22 @@
-.main {
-  width: 100%;
+/* src/components/AppLayout.module.css */
+
+.wrapper {
   min-height: 100vh;
-  transition-property: color, background-color, border-color,
-    text-decoration-color, fill, stroke;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  transition-duration: 300ms;
-  transition-duration: 300ms;
+  width: 100%;
+  transition: background-color 0.3s, color 0.3s;
 }
 
-.container {
+.light {
+  background-color: white;
+  color: #1f2937; /* text-gray-800 */
+}
+
+.dark {
+  background-color: #111827; /* bg-gray-900 */
+  color: white;
+}
+
+.innerContainer {
   display: flex;
-  height: calc(100vh - 65px);
+  height: calc(100vh - 64px); /* 64px = h-16 */
 }

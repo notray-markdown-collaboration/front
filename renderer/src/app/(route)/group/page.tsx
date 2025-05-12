@@ -134,7 +134,7 @@ const activeMembers = [
   { id: 5, name: "정태영", avatar: "TY", color: "#8B5CF6" },
 ];
 
-const App: React.FC = () => {
+export default function HomePage() {
   const [currentFolder, setCurrentFolder] = useState("문서");
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [viewMode, setViewMode] = useState<"list" | "grid">("list");
@@ -142,6 +142,8 @@ const App: React.FC = () => {
   const [toastOpen, setToastOpen] = useState(true);
 
   useEffect(() => {
+    if (typeof window === undefined) return;
+
     const chartDom = document.getElementById("storage-chart");
     if (chartDom) {
       const myChart = echarts.init(chartDom);
@@ -177,9 +179,7 @@ const App: React.FC = () => {
 
   return (
     <div
-      className={`${styles.main}${
-        darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-800"
-      }`}
+      className={`${styles.wrapper} ${darkMode ? styles.dark : styles.light}`}
     >
       <Header
         darkMode={darkMode}
@@ -187,7 +187,7 @@ const App: React.FC = () => {
         onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
         members={activeMembers}
       />
-      <div className={styles.container}>
+      <div className={styles.innerContainer}>
         <Sidebar
           darkMode={darkMode}
           sidebarOpen={sidebarOpen}
@@ -214,6 +214,4 @@ const App: React.FC = () => {
       )}
     </div>
   );
-};
-
-export default App;
+}
