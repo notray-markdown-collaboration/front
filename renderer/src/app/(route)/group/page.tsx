@@ -6,6 +6,7 @@ import Sidebar from "./components/Sidebar";
 import MainContent from "./components/MainContent";
 import ToastNotification from "./components/ToastNotification";
 import { FileItem } from "./types";
+import styles from "./page.module.css";
 
 const folders = [
   { id: "문서", name: "문서", files: 5 },
@@ -50,14 +51,16 @@ const activeMembers = [
   { id: 5, name: "정태영", avatar: "TY", color: "#8B5CF6" },
 ];
 
-const App: React.FC = () => {
-  const [currentFolder, setCurrentFolder] = useState("문서");
+export default function HomePage() {
+ const [currentFolder, setCurrentFolder] = useState("문서");
   const [sidebarOpen, setSidebarOpen] = useState(true);
   const [viewMode, setViewMode] = useState<"list" | "grid">("list");
   const [darkMode, setDarkMode] = useState(false);
   const [toastOpen, setToastOpen] = useState(true);
 
   useEffect(() => {
+    if (typeof window === undefined) return;
+    
     const chartDom = document.getElementById("storage-chart");
     if (chartDom) {
       const myChart = echarts.init(chartDom);
@@ -92,38 +95,38 @@ const App: React.FC = () => {
   }, [darkMode]);
 
   return (
-    <div className={`min-h-screen w-full transition-colors duration-300 ${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-800"}`}>
-      <Header
+  <div className={`${styles.wrapper} ${darkMode ? styles.dark : styles.light}`}>
+    <Header
+      darkMode={darkMode}
+      onToggleDarkMode={() => setDarkMode(!darkMode)}
+      onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+      members={activeMembers}
+    />
+    <div className={styles.innerContainer}>
+      <Sidebar
         darkMode={darkMode}
-        onToggleDarkMode={() => setDarkMode(!darkMode)}
-        onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} members={activeMembers}      />
-      <div className="flex h-[calc(100vh-64px)]">
-        <Sidebar
-          darkMode={darkMode}
-          sidebarOpen={sidebarOpen}
-          folders={folders}
-          currentFolder={currentFolder}
-          onSelectFolder={setCurrentFolder}
-        />
-        <MainContent
-          darkMode={darkMode}
-          viewMode={viewMode}
-          currentFolder={currentFolder}
-          files={filesByFolder[currentFolder] || []}
-          onToggleViewMode={() =>
-            setViewMode(viewMode === "list" ? "grid" : "list")
-          }
-        />
-      </div>
-      {toastOpen && (
-        <ToastNotification
-          darkMode={darkMode}
-          message="'분기별 보고서.docx' 파일이 김민수님에 의해 수정되었습니다."
-          onClose={() => setToastOpen(false)}
-        />
-      )}
+        sidebarOpen={sidebarOpen}
+        folders={folders}
+        currentFolder={currentFolder}
+        onSelectFolder={setCurrentFolder}
+      />
+      <MainContent
+        darkMode={darkMode}
+        viewMode={viewMode}
+        currentFolder={currentFolder}
+        files={filesByFolder[currentFolder] || []}
+        onToggleViewMode={() =>
+          setViewMode(viewMode === "list" ? "grid" : "list")
+        }
+      />
     </div>
+    {toastOpen && (
+      <ToastNotification
+        darkMode={darkMode}
+        message="'분기별 보고서.docx' 파일이 김민수님에 의해 수정되었습니다."
+        onClose={() => setToastOpen(false)}
+      />
+    )}
+  </div>
   );
-};
-
-export default App;
+}
