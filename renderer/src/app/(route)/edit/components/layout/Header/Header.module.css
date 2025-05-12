@@ -1,0 +1,111 @@
+.header {
+  height: 3rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  border-bottom: 1px solid;
+}
+
+.lightTheme {
+  background-color: #f3f4f6; /* bg-gray-100 */
+  border-color: #e5e7eb; /* border-gray-200 */
+}
+
+.darkTheme {
+  background-color: #1f2937; /* bg-gray-800 */
+  border-color: #374151; /* border-gray-700 */
+}
+
+.titleContainer {
+  display: flex;
+  align-items: center;
+}
+
+.title {
+  font-size: 1.125rem;
+  font-weight: 600;
+}
+
+.rightContainer {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.avatars {
+  display: flex;
+  align-items: center;
+}
+
+.avatar {
+  position: relative;
+  margin-left: -0.5rem;
+  z-index: 10;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 9999px;
+  border: 2px solid white;
+  cursor: pointer;
+}
+
+.dark .avatar {
+  border-color: #1f2937;
+}
+
+.statusDot {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  width: 0.625rem;
+  height: 0.625rem;
+  background-color: #22c55e;
+  border-radius: 9999px;
+  border: 1px solid white;
+}
+
+.dark .statusDot {
+  border-color: #1f2937;
+}
+
+.themeButton {
+  padding: 0.5rem;
+  border-radius: 9999px;
+  transition: background-color 0.2s;
+  cursor: pointer;
+}
+
+.themeButton:hover {
+  background-color: #e5e7eb;
+}
+
+.dark .themeButton:hover {
+  background-color: #374151;
+}
+
+.userButton {
+  position: relative;
+}
+
+.userProfileButton {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.userProfileButton:hover {
+  background-color: #e5e7eb;
+}
+
+.dark .userProfileButton:hover {
+  background-color: #374151;
+}
+
+.profileImage {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 9999px;
+}

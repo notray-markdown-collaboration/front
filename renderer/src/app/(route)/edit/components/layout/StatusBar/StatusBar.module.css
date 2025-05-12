@@ -1,0 +1,52 @@
+.statusBar {
+  height: 1.5rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 1rem;
+  font-size: 0.75rem;
+  border-top: 1px solid;
+}
+
+.lightTheme {
+  background-color: #f3f4f6; /* bg-gray-100 */
+  border-color: #e5e7eb; /* border-gray-200 */
+}
+
+.darkTheme {
+  background-color: #1f2937; /* bg-gray-800 */
+  border-color: #374151; /* border-gray-700 */
+}
+
+.leftGroup,
+.rightGroup {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+}
+
+.collaboratorGroup {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.collaborator {
+  display: flex;
+  align-items: center;
+  margin-right: 0.25rem;
+}
+
+.dot {
+  width: 0.5rem;
+  height: 0.5rem;
+  border-radius: 9999px;
+  margin-right: 0.25rem;
+}
+
+.viewModeButton {
+  display: flex;
+  align-items: center;
+  gap: 0.25rem;
+  cursor: pointer;
+}

@@ -1,0 +1,75 @@
+.tabs {
+  display: flex;
+  border-bottom: 1px solid;
+}
+
+.lightTheme {
+  background-color: #f9fafb; /* bg-gray-50 */
+  border-color: #e5e7eb; /* border-gray-200 */
+}
+
+.darkTheme {
+  background-color: #1f2937; /* bg-gray-800 */
+  border-color: #374151; /* border-gray-700 */
+}
+
+.tab {
+  display: flex;
+  align-items: center;
+  padding: 0.5rem 1rem;
+  border-right: 1px solid;
+  cursor: pointer;
+  max-width: 180px;
+}
+
+.tab:hover {
+  background-color: #f3f4f6;
+}
+
+.dark .tab:hover {
+  background-color: #374151;
+}
+
+.tabIcon {
+  margin-right: 0.5rem;
+}
+
+.tsxIcon {
+  color: #a855f7;
+}
+
+.mdIcon {
+  color: #3b82f6;
+}
+
+.activeTabLight {
+  background-color: #ffffff;
+  border-bottom: 2px solid #3b82f6;
+}
+
+.activeTabDark {
+  background-color: #111827;
+  border-bottom: 2px solid #3b82f6;
+}
+
+.tabName {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  max-width: 120px;
+}
+
+.closeButton {
+  margin-left: 0.5rem;
+  color: #6b7280;
+  font-size: 0.75rem;
+  cursor: pointer;
+}
+
+.closeButton:hover {
+  color: #374151;
+}
+
+.dark .closeButton:hover {
+  color: #d1d5db;
+}

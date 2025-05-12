@@ -1,14 +1,13 @@
 "use client";
 import React, { useState } from "react";
 import styles from "./page.module.css";
-import { preloadStyle } from "next/dist/server/app-render/entry-base";
-import Header from "./components/layout/Header";
-import Sidebar from "./components/layout/Sidebar";
-import EditorTabs from "./components/domain/EditorTabs";
-import MarkdownEditor from "./components/domain/MarkdownEditor";
-import MarkdownPreview from "./components/domain/MarkdownPreview";
-import StatusBar from "./components/layout/StatusBar";
-import RightSidebar from "./components/layout/RightSidebar";
+import Header from "./components/layout/Header/Header";
+import Sidebar from "./components/layout/Sidebar/Sidebar";
+import EditorTabs from "./components/domain/EditorTabs/EditorTabs";
+import MarkdownEditor from "./components/domain/MarkdownEditor/MarkdownEditor";
+import MarkdownPreview from "./components/domain/MarkdownPreview/MarkdownPreview";
+import StatusBar from "./components/layout/StatusBar/StatusBar";
+import RightSidebar from "./components/layout/RightSidebar/RightSidebar";
 import { fileStructure, initialUsers, sampleMarkdown } from "./utils/constants";
 
 export default function HomePage() {
@@ -26,14 +25,11 @@ export default function HomePage() {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
   const toggleViewMode = () =>
     setViewMode((prev) => (prev === "edit" ? "preview" : "edit"));
+
+  const themeClass = theme === "dark" ? styles.darkTheme : styles.lightTheme;
+
   return (
-    <div
-      className={`${styles.main} ${
-        theme === "dark"
-          ? "bg-gray-900 text-gray-100"
-          : "bg-white text-gray-800"
-      }`}
-    >
+    <div className={`${styles.main} ${themeClass}`}>
       <Header
         theme={theme}
         toggleTheme={toggleTheme}
@@ -52,7 +48,7 @@ export default function HomePage() {
           setExpandedFolders={setExpandedFolders}
         />
 
-        <main className="flex-1 flex flex-col overflow-hidden">
+        <main className={styles.mainContent}>
           <EditorTabs
             theme={theme}
             activeFile={activeFile}
@@ -61,7 +57,7 @@ export default function HomePage() {
             setOpenFiles={setOpenFiles}
           />
 
-          <div className="flex-1 flex overflow-hidden">
+          <div className={styles.editorContainer}>
             <MarkdownEditor
               theme={theme}
               viewMode={viewMode}
