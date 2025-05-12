@@ -18,10 +18,10 @@ const Sidebar: React.FC<SidebarProps> = ({
   onSelectFolder,
 }) => {
   return (
-  <aside
-      className={`${styles.sidebar} ${sidebarOpen ? styles.sidebarOpen : styles.sidebarClosed} ${
-        darkMode ? styles.sidebarDark : styles.sidebarLight
-      }`}
+    <aside
+      className={`${styles.sidebar} ${
+        sidebarOpen ? styles.sidebarOpen : styles.sidebarClosed
+      } ${darkMode ? styles.sidebarDark : styles.sidebarLight}`}
     >
       <div className={styles.headerPadding}>
         <button

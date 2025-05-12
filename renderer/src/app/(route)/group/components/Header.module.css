@@ -1,6 +1,5 @@
 .header {
   height: 4rem;
-  width: 100%;
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -149,7 +148,7 @@
 }
 
 .memberBorderDark {
-  border-color: #1F2937;
+  border-color: #1f2937;
 }
 
 .bgLight {

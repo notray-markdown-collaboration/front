@@ -6,7 +6,7 @@ import Sidebar from "./components/Sidebar";
 import MainContent from "./components/MainContent";
 import ToastNotification from "./components/ToastNotification";
 import { FileItem } from "./types";
-
+import styles from "./page.module.css";
 const folders = [
   { id: "문서", name: "문서", files: 5 },
   { id: "이미지", name: "이미지", files: 12 },
@@ -17,28 +17,112 @@ const folders = [
 
 const filesByFolder: Record<string, FileItem[]> = {
   문서: [
-    { id: 1, name: "분기별 보고서.docx", modified: "2025-04-15", size: "2.4 MB", modifiedBy: "김민수" },
-    { id: 2, name: "회의록_2025-04-10.docx", modified: "2025-04-10", size: "1.2 MB", modifiedBy: "이지은" },
-    { id: 3, name: "프로젝트 계획서.pdf", modified: "2025-04-05", size: "3.7 MB", modifiedBy: "박지훈" },
-    { id: 4, name: "마케팅 전략.pptx", modified: "2025-04-01", size: "5.1 MB", modifiedBy: "최수진" },
-    { id: 5, name: "예산 계획.xlsx", modified: "2025-03-28", size: "1.8 MB", modifiedBy: "김민수" },
+    {
+      id: 1,
+      name: "분기별 보고서.docx",
+      modified: "2025-04-15",
+      size: "2.4 MB",
+      modifiedBy: "김민수",
+    },
+    {
+      id: 2,
+      name: "회의록_2025-04-10.docx",
+      modified: "2025-04-10",
+      size: "1.2 MB",
+      modifiedBy: "이지은",
+    },
+    {
+      id: 3,
+      name: "프로젝트 계획서.pdf",
+      modified: "2025-04-05",
+      size: "3.7 MB",
+      modifiedBy: "박지훈",
+    },
+    {
+      id: 4,
+      name: "마케팅 전략.pptx",
+      modified: "2025-04-01",
+      size: "5.1 MB",
+      modifiedBy: "최수진",
+    },
+    {
+      id: 5,
+      name: "예산 계획.xlsx",
+      modified: "2025-03-28",
+      size: "1.8 MB",
+      modifiedBy: "김민수",
+    },
   ],
   이미지: [
-    { id: 6, name: "로고_최종.png", modified: "2025-04-14", size: "0.8 MB", modifiedBy: "이지은" },
-    { id: 7, name: "배너_디자인.jpg", modified: "2025-04-12", size: "1.5 MB", modifiedBy: "최수진" },
+    {
+      id: 6,
+      name: "로고_최종.png",
+      modified: "2025-04-14",
+      size: "0.8 MB",
+      modifiedBy: "이지은",
+    },
+    {
+      id: 7,
+      name: "배너_디자인.jpg",
+      modified: "2025-04-12",
+      size: "1.5 MB",
+      modifiedBy: "최수진",
+    },
   ],
   프로젝트: [
-    { id: 8, name: "웹사이트 리뉴얼.zip", modified: "2025-04-16", size: "15.2 MB", modifiedBy: "박지훈" },
-    { id: 9, name: "모바일 앱 소스코드.zip", modified: "2025-04-13", size: "22.7 MB", modifiedBy: "김민수" },
-    { id: 10, name: "API 문서.pdf", modified: "2025-04-08", size: "4.3 MB", modifiedBy: "이지은" },
+    {
+      id: 8,
+      name: "웹사이트 리뉴얼.zip",
+      modified: "2025-04-16",
+      size: "15.2 MB",
+      modifiedBy: "박지훈",
+    },
+    {
+      id: 9,
+      name: "모바일 앱 소스코드.zip",
+      modified: "2025-04-13",
+      size: "22.7 MB",
+      modifiedBy: "김민수",
+    },
+    {
+      id: 10,
+      name: "API 문서.pdf",
+      modified: "2025-04-08",
+      size: "4.3 MB",
+      modifiedBy: "이지은",
+    },
   ],
   공유됨: [
-    { id: 11, name: "협업 가이드라인.docx", modified: "2025-04-11", size: "1.9 MB", modifiedBy: "최수진" },
-    { id: 12, name: "클라이언트 피드백.pdf", modified: "2025-04-09", size: "2.2 MB", modifiedBy: "박지훈" },
+    {
+      id: 11,
+      name: "협업 가이드라인.docx",
+      modified: "2025-04-11",
+      size: "1.9 MB",
+      modifiedBy: "최수진",
+    },
+    {
+      id: 12,
+      name: "클라이언트 피드백.pdf",
+      modified: "2025-04-09",
+      size: "2.2 MB",
+      modifiedBy: "박지훈",
+    },
   ],
   아카이브: [
-    { id: 13, name: "이전 프로젝트 백업.zip", modified: "2025-03-20", size: "45.6 MB", modifiedBy: "김민수" },
-    { id: 14, name: "2024년 연간 보고서.pdf", modified: "2025-01-15", size: "8.3 MB", modifiedBy: "이지은" },
+    {
+      id: 13,
+      name: "이전 프로젝트 백업.zip",
+      modified: "2025-03-20",
+      size: "45.6 MB",
+      modifiedBy: "김민수",
+    },
+    {
+      id: 14,
+      name: "2024년 연간 보고서.pdf",
+      modified: "2025-01-15",
+      size: "8.3 MB",
+      modifiedBy: "이지은",
+    },
   ],
 };
 
@@ -92,12 +176,18 @@ const App: React.FC = () => {
   }, [darkMode]);
 
   return (
-    <div className={`min-h-screen w-full transition-colors duration-300 ${darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-800"}`}>
+    <div
+      className={`${styles.main}${
+        darkMode ? "bg-gray-900 text-white" : "bg-white text-gray-800"
+      }`}
+    >
       <Header
         darkMode={darkMode}
         onToggleDarkMode={() => setDarkMode(!darkMode)}
-        onToggleSidebar={() => setSidebarOpen(!sidebarOpen)} members={activeMembers}      />
-      <div className="flex h-[calc(100vh-64px)]">
+        onToggleSidebar={() => setSidebarOpen(!sidebarOpen)}
+        members={activeMembers}
+      />
+      <div className={styles.container}>
         <Sidebar
           darkMode={darkMode}
           sidebarOpen={sidebarOpen}

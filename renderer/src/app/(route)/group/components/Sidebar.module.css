@@ -73,7 +73,12 @@
 }
 
 .folderHover:hover {
-  background-color: rgba(229, 231, 235, 0.2); /* hover:bg-gray-200 hover:bg-opacity-20 */
+  background-color: rgba(
+    229,
+    231,
+    235,
+    0.2
+  ); /* hover:bg-gray-200 hover:bg-opacity-20 */
 }
 
 .folderActiveDark {

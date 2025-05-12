@@ -9,13 +9,21 @@ body {
 p {
   padding: 0;
 }
+button {
+  border: 0;
+  background: none;
+}
+ul {
+  list-style-type: none;
+  padding: 0;
+}
 .dark {
-  background-color: #111827;
-  color: #ffffff;
-  transition: background-color 0.3s, color 0.3s;
+  /* background-color: #111827;
+  color: #ffffff; */
+  /* transition: background-color 0.3s, color 0.3s; */
 }
 .light {
-  background-color: #ffffff;
+  /* background-color: #ffffff;
   color: #000000;
-  transition: background-color 0.3s, color 0.3s;
+  transition: background-color 0.3s, color 0.3s; */
 }
