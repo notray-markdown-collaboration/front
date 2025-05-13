@@ -19,7 +19,8 @@ export default function MarkdownEditor() {
     text: "",
     isEditing: true,
   }));
-
+  const ctrlACountRef = useRef(0);
+  const lastCtrlATime = useRef(0);
   const [lines, setLines] = useState<Line[]>(initialLines);
   const inputRefs = useRef<Array<HTMLTextAreaElement | null>>([]);
 
@@ -28,16 +29,38 @@ export default function MarkdownEditor() {
     index: number
   ) => {
     const isAtStart = e.currentTarget.selectionStart === 0;
+    const isSelecting =
+      e.currentTarget.selectionStart !== e.currentTarget.selectionEnd;
 
-    // ✅ Shift + Enter → 줄 안에서 줄바꿈 (기본 동작 유지)
-    if (e.key === "Enter" && e.shiftKey) {
+    // ✅ Ctrl+A 누른 횟수 확인
+    if (e.ctrlKey && e.key.toLowerCase() === "a") {
+      const now = Date.now();
+
+      // 첫 번째 Ctrl+A → 기본 동작 허용 (전체 선택)
+      if (now - lastCtrlATime.current < 500) {
+        // 두 번째 빠른 Ctrl+A
+        const fullText = lines.map((line) => line.text).join("\n");
+        navigator.clipboard.writeText(fullText);
+        setTimeout(() => {
+          inputRefs.current[index]?.focus();
+        }, 0);
+
+        // ✅ 알림 대신 콘솔 또는 toast로 처리
+        console.log("✅ 전체 내용이 클립보드에 복사되었습니다.");
+        lastCtrlATime.current = 0;
+      } else {
+        lastCtrlATime.current = now;
+        // ✅ 기본 동작 허용!
+        return;
+      }
+
+      e.preventDefault(); // 두 번째만 막는다
       return;
     }
 
-    // 맨 앞에서 백스페이스 → 위 줄로 포커스 이동
-    if (e.key === "Backspace" && isAtStart && index > 0) {
+    // ✅ Backspace → 위로 이동
+    if (e.key === "Backspace" && isAtStart && !isSelecting && index > 0) {
       e.preventDefault();
-
       setLines((prev) => {
         const updated = [...prev];
         updated[index].isEditing = false;
@@ -49,27 +72,24 @@ export default function MarkdownEditor() {
         const prev = inputRefs.current[index - 1];
         if (prev) {
           prev.focus();
-          prev.setSelectionRange(prev.value.length, prev.value.length); // 커서 끝으로
+          prev.setSelectionRange(prev.value.length, prev.value.length);
         }
       }, 0);
 
       return;
     }
 
-    // Enter → 다음 줄로 이동
+    // ✅ Enter → 다음 줄
     if (e.key === "Enter" && !e.shiftKey) {
       e.preventDefault();
-
       setLines((prev) => {
         const updated = [...prev];
         updated[index].isEditing = false;
-
         if (index + 1 >= updated.length) {
           updated.push({ id: updated.length + 1, text: "", isEditing: true });
         } else {
           updated[index + 1].isEditing = true;
         }
-
         return updated;
       });
 
@@ -114,13 +134,19 @@ export default function MarkdownEditor() {
             value={line.text}
             onChange={(e) => {
               handleChange(idx, e.target.value);
-
-              // ✅ 입력 중에도 높이 동기화
-              const target = e.target as HTMLTextAreaElement;
+              const target = e.target;
               target.style.height = "auto";
               target.style.height = target.scrollHeight + "px";
             }}
             onKeyDown={(e) => handleKeyDown(e, idx)}
+            onBlur={() => {
+              setLines((prev) => {
+                console.log(prev);
+                const updated = [...prev];
+                updated[idx].isEditing = false;
+                return updated;
+              });
+            }}
             rows={1}
           />
         ) : (
@@ -133,10 +159,31 @@ export default function MarkdownEditor() {
               components={{
                 code({ node, inline, className, children, ...props }: any) {
                   const match = /language-(\w+)/.exec(className || "");
-                  return !inline && match ? (
+                  const lang = match?.[1] || "";
+                  const supportedLanguages = [
+                    "js",
+                    "javascript",
+                    "ts",
+                    "typescript",
+                    "json",
+                    "html",
+                    "css",
+                    "bash",
+                    "python",
+                    "java",
+                    "c",
+                    "cpp",
+                    "tsx",
+                    "jsx",
+                  ];
+                  const validLang = supportedLanguages.includes(lang)
+                    ? lang
+                    : "text";
+
+                  return !inline ? (
                     <SyntaxHighlighter
                       style={oneDark as any}
-                      language={match[1]}
+                      language={validLang}
                       PreTag="div"
                       showLineNumbers
                       wrapLines
