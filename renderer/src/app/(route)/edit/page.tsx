@@ -1,14 +1,18 @@
 "use client";
 import React, { useState } from "react";
 import styles from "./page.module.css";
-import Header from "./components/layout/Header/Header";
-import Sidebar from "./components/layout/Sidebar/Sidebar";
-import EditorTabs from "./components/domain/EditorTabs/EditorTabs";
-import MarkdownEditor from "./components/domain/MarkdownEditor/MarkdownEditor";
-import MarkdownPreview from "./components/domain/MarkdownPreview/MarkdownPreview";
-import StatusBar from "./components/layout/StatusBar/StatusBar";
-import RightSidebar from "./components/layout/RightSidebar/RightSidebar";
-import { fileStructure, initialUsers, sampleMarkdown } from "./utils/constants";
+import Header from "./_components/layout/Header/Header";
+import Sidebar from "./_components/layout/Sidebar/Sidebar";
+import EditorTabs from "./_components/domain/EditorTabs/EditorTabs";
+import MarkdownEditor from "./_components/domain/MarkdownEditor/MarkdownEditor";
+import MarkdownPreview from "./_components/domain/MarkdownPreview/MarkdownPreview";
+import StatusBar from "./_components/layout/StatusBar/StatusBar";
+import RightSidebar from "./_components/layout/RightSidebar/RightSidebar";
+import {
+  fileStructure,
+  initialUsers,
+  sampleMarkdown,
+} from "./_utils/constants";
 
 export default function HomePage() {
   const [activeFile, setActiveFile] = useState("README.md");
