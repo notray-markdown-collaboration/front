@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./Sidebar.module.css";
-import { Folder } from "../types";
+import { Folder } from "../_types";
 
 interface SidebarProps {
   darkMode: boolean;

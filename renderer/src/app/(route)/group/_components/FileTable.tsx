@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./FileTable.module.css";
-import { FileItem } from "../types";
+import { FileItem } from "../_types";
 
 interface FileTableProps {
   darkMode: boolean;
@@ -14,7 +14,8 @@ const FileTable: React.FC<FileTableProps> = ({ darkMode, files }) => {
     if (fileName.endsWith(".pptx")) return "fa-file-powerpoint";
     if (fileName.endsWith(".xlsx")) return "fa-file-excel";
     if (fileName.endsWith(".zip")) return "fa-file-archive";
-    if (fileName.endsWith(".png") || fileName.endsWith(".jpg")) return "fa-file-image";
+    if (fileName.endsWith(".png") || fileName.endsWith(".jpg"))
+      return "fa-file-image";
     return "fa-file";
   };
   const getIconClass = (fileName: string) => {
@@ -23,12 +24,17 @@ const FileTable: React.FC<FileTableProps> = ({ darkMode, files }) => {
     if (fileName.endsWith(".pptx")) return styles.iconPpt;
     if (fileName.endsWith(".xlsx")) return styles.iconXls;
     if (fileName.endsWith(".zip")) return styles.iconZip;
-    if (fileName.endsWith(".png") || fileName.endsWith(".jpg")) return styles.iconImg;
+    if (fileName.endsWith(".png") || fileName.endsWith(".jpg"))
+      return styles.iconImg;
     return styles.iconDefault;
   };
 
   return (
-    <div className={`${styles.wrapper} ${darkMode ? styles.borderDark : styles.borderLight}`}>
+    <div
+      className={`${styles.wrapper} ${
+        darkMode ? styles.borderDark : styles.borderLight
+      }`}
+    >
       <table className={styles.table}>
         <thead className={darkMode ? styles.theadDark : styles.theadLight}>
           <tr>
@@ -41,10 +47,17 @@ const FileTable: React.FC<FileTableProps> = ({ darkMode, files }) => {
         </thead>
         <tbody className={darkMode ? styles.tbodyDark : styles.tbodyLight}>
           {files.map((file) => (
-            <tr key={file.id} className={darkMode ? styles.trDark : styles.trLight}>
+            <tr
+              key={file.id}
+              className={darkMode ? styles.trDark : styles.trLight}
+            >
               <td className={styles.td}>
                 <div className={styles.nameCell}>
-                  <i className={`fas ${getIconFa(file.name)} ${getIconClass(file.name)} ${styles.icon}`}></i>
+                  <i
+                    className={`fas ${getIconFa(file.name)} ${getIconClass(
+                      file.name
+                    )} ${styles.icon}`}
+                  ></i>
                   <span className={styles.tdName}>{file.name}</span>
                 </div>
               </td>

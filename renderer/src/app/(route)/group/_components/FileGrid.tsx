@@ -1,6 +1,6 @@
 import React from "react";
-import styles from './FileGrid.module.css';
-import { FileItem } from "../types";
+import styles from "./FileGrid.module.css";
+import { FileItem } from "../_types";
 
 interface FileGridProps {
   darkMode: boolean;
@@ -14,9 +14,10 @@ const FileGrid: React.FC<FileGridProps> = ({ darkMode, files }) => {
     if (fileName.endsWith(".pptx")) return "fa-file-powerpoint";
     if (fileName.endsWith(".xlsx")) return "fa-file-excel";
     if (fileName.endsWith(".zip")) return "fa-file-archive";
-    if (fileName.endsWith(".png") || fileName.endsWith(".jpg")) return "fa-file-image";
+    if (fileName.endsWith(".png") || fileName.endsWith(".jpg"))
+      return "fa-file-image";
     return "fa-file";
-  }  
+  };
 
   const getIconClass = (name: string) => {
     if (name.endsWith(".docx")) return `${styles.icon} ${styles.textBlue}`;
@@ -24,25 +25,35 @@ const FileGrid: React.FC<FileGridProps> = ({ darkMode, files }) => {
     if (name.endsWith(".pptx")) return `${styles.icon} ${styles.textOrange}`;
     if (name.endsWith(".xlsx")) return `${styles.icon} ${styles.textGreen}`;
     if (name.endsWith(".zip")) return `${styles.icon} ${styles.textPurple}`;
-    if (name.endsWith(".png") || name.endsWith(".jpg")) return `${styles.icon} ${styles.textTeal}`;
+    if (name.endsWith(".png") || name.endsWith(".jpg"))
+      return `${styles.icon} ${styles.textTeal}`;
     return `${styles.icon} ${styles.textGray}`;
   };
 
-  
   return (
-     <div className={styles.gridWrapper}>
+    <div className={styles.gridWrapper}>
       {files.map((file) => (
         <div
           key={file.id}
-          className={`${styles.card} ${darkMode ? styles.cardDark : styles.cardLight}`}
+          className={`${styles.card} ${
+            darkMode ? styles.cardDark : styles.cardLight
+          }`}
         >
           <div className={styles.iconRow}>
-            <i className={`fas ${getIconFa(file.name)} ${getIconClass(file.name)}`}></i>
+            <i
+              className={`fas ${getIconFa(file.name)} ${getIconClass(
+                file.name
+              )}`}
+            ></i>
           </div>
           <h3 className={styles.filename} title={file.name}>
             {file.name}
           </h3>
-          <div className={`${styles.meta} ${darkMode ? styles.metaDark : styles.metaLight}`}>
+          <div
+            className={`${styles.meta} ${
+              darkMode ? styles.metaDark : styles.metaLight
+            }`}
+          >
             {file.modified} · {file.size}
           </div>
         </div>

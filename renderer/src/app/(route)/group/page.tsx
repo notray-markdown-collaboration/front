@@ -1,11 +1,11 @@
 "use client";
 import React, { useState, useEffect } from "react";
 import * as echarts from "echarts";
-import Header from "./components/Header";
-import Sidebar from "./components/Sidebar";
-import MainContent from "./components/MainContent";
-import ToastNotification from "./components/ToastNotification";
-import { FileItem } from "./types";
+import Header from "./_components/Header";
+import Sidebar from "./_components/Sidebar";
+import MainContent from "./_components/MainContent";
+import ToastNotification from "./_components/ToastNotification";
+import { FileItem } from "./_types";
 import styles from "./page.module.css";
 const folders = [
   { id: "문서", name: "문서", files: 5 },

@@ -97,6 +97,23 @@ export default function MarkdownEditor() {
         inputRefs.current[index + 1]?.focus();
       }, 0);
     }
+
+    // Tab → 공백 삽입
+    if (e.key === "Tab") {
+      e.preventDefault();
+      const textarea = e.currentTarget;
+      const start = textarea.selectionStart;
+      const end = textarea.selectionEnd;
+      const value = textarea.value;
+
+      const newValue = value.substring(0, start) + "  " + value.substring(end);
+      handleChange(index, newValue);
+
+      setTimeout(() => {
+        textarea.selectionStart = textarea.selectionEnd = start + 2;
+      }, 0);
+      return;
+    }
   };
 
   const handleChange = (index: number, value: string) => {

@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./Header.module.css";
-import { Member } from "../types";
+import { Member } from "../_types";
 
 interface HeaderProps {
   darkMode: boolean;
