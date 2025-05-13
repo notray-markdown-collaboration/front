@@ -1,5 +1,11 @@
 import React from "react";
 import styles from "./EditorTabs.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFileAlt,
+  faFileCode,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface EditorTabsProps {
   theme: "light" | "dark";
@@ -47,17 +53,16 @@ const EditorTabs: React.FC<EditorTabsProps> = ({
             onClick={() => setActiveFile(file)}
             className={`${styles.tab} ${tabClass}`}
           >
-            <i
-              className={`fas ${
-                file.endsWith(".tsx") ? "fa-file-code" : "fa-file-alt"
-              } ${styles.tabIcon} ${iconClass}`}
-            ></i>
+            <FontAwesomeIcon
+              icon={file.endsWith(".tsx") ? faFileCode : faFileAlt}
+              className={`${styles.tabIcon} ${iconClass}`}
+            />
             <span className={styles.tabName}>{file.split("/").pop()}</span>
             <button
               onClick={(e) => closeFile(file, e)}
               className={styles.closeButton}
             >
-              <i className="fas fa-times"></i>
+              <FontAwesomeIcon icon={faTimes} />
             </button>
           </div>
         );
