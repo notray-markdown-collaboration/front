@@ -1,5 +1,15 @@
 import React from "react";
 import styles from "./Sidebar.module.css";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFileAlt,
+  faChevronDown,
+  faChevronRight,
+  faFolder,
+  faPlus,
+  faFolderPlus,
+  faEllipsisH,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface SidebarProps {
   theme: "light" | "dark";
@@ -65,7 +75,10 @@ const Sidebar: React.FC<SidebarProps> = ({
                   : ""
               }`}
             >
-              <i className={`fas fa-file-alt ${styles.fileIcon}`}></i>
+              <FontAwesomeIcon
+                icon={faFileAlt}
+                style={{ marginRight: "0.5rem", color: "#3b82f6" }}
+              ></FontAwesomeIcon>
               <span className="truncate">{path.split("/").pop()}</span>
             </div>
           );
@@ -77,12 +90,18 @@ const Sidebar: React.FC<SidebarProps> = ({
                 onClick={() => toggleFolder(path)}
                 className={styles.folderItem}
               >
-                <i
-                  className={`fas ${
-                    isExpanded ? "fa-chevron-down" : "fa-chevron-right"
-                  } ${styles.toggleIcon}`}
-                ></i>
-                <i className={`fas fa-folder ${styles.folderIcon}`}></i>
+                <FontAwesomeIcon
+                  icon={isExpanded ? faChevronDown : faChevronRight}
+                  style={{
+                    fontSize: "0.75rem",
+                    marginRight: "0.375rem",
+                    width: "0.75rem",
+                  }}
+                ></FontAwesomeIcon>
+                <FontAwesomeIcon
+                  icon={faFolder}
+                  className={styles.folderIcon}
+                ></FontAwesomeIcon>
                 <span className="truncate">{path.split("/").pop()}</span>
               </div>
               {isExpanded && renderTree(path, level + 1)}
@@ -100,13 +119,22 @@ const Sidebar: React.FC<SidebarProps> = ({
         <h2 className={styles.headerTitle}>작업 파일</h2>
         <div className={styles.headerButtons}>
           <button className={styles.iconButton}>
-            <i className="fas fa-plus text-xs"></i>
+            <FontAwesomeIcon
+              icon={faPlus}
+              style={{ fontSize: "0.75rem", lineHeight: "1rem" }}
+            ></FontAwesomeIcon>
           </button>
           <button className={styles.iconButton}>
-            <i className="fas fa-folder-plus text-xs"></i>
+            <FontAwesomeIcon
+              icon={faFolderPlus}
+              style={{ fontSize: "0.75rem", lineHeight: "1rem" }}
+            ></FontAwesomeIcon>
           </button>
           <button className={styles.iconButton}>
-            <i className="fas fa-ellipsis-h text-xs"></i>
+            <FontAwesomeIcon
+              icon={faEllipsisH}
+              style={{ fontSize: "0.75rem", lineHeight: "1rem" }}
+            ></FontAwesomeIcon>
           </button>
         </div>
       </div>

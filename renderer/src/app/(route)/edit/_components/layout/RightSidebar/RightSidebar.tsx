@@ -1,6 +1,13 @@
 import React from "react";
 import styles from "./RightSidebar.module.css";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faComments,
+  faHistory,
+  faCog,
+  faSearch,
+  faTimes,
+} from "@fortawesome/free-solid-svg-icons";
 interface User {
   id: number;
   name: string;
@@ -20,25 +27,25 @@ const RightSidebar: React.FC<RightSidebarProps> = ({ theme, activeUsers }) => {
     <div className={`${styles.container} ${themeClass}`}>
       <div className={styles.sidebar}>
         <button className={styles.sidebarButton}>
-          <i className="fas fa-comments"></i>
+          <FontAwesomeIcon icon={faComments}></FontAwesomeIcon>
         </button>
         <button
           className={`${styles.sidebarButton} ${styles.sidebarButtonActive}`}
         >
-          <i className="fas fa-history"></i>
+          <FontAwesomeIcon icon={faHistory}></FontAwesomeIcon>
         </button>
         <button className={styles.sidebarButton}>
-          <i className="fas fa-cog"></i>
+          <FontAwesomeIcon icon={faCog}></FontAwesomeIcon>
         </button>
         <button className={styles.sidebarButton}>
-          <i className="fas fa-search"></i>
+          <FontAwesomeIcon icon={faSearch}></FontAwesomeIcon>
         </button>
       </div>
       <div className={`${styles.panel} ${styles.panelBorder}`}>
         <div className={styles.panelHeader}>
           <h3>변경 기록</h3>
           <button className={styles.closeButton}>
-            <i className="fas fa-times"></i>
+            <FontAwesomeIcon icon={faTimes}></FontAwesomeIcon>
           </button>
         </div>
         <div className={styles.scrollArea}>

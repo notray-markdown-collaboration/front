@@ -1,6 +1,12 @@
 import React from "react";
 import styles from "./Header.module.css";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faEdit,
+  faChevronDown,
+  faMoon,
+  faSun,
+} from "@fortawesome/free-solid-svg-icons";
 interface User {
   id: number;
   name: string;
@@ -22,7 +28,10 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme, activeUsers }) => {
       }`}
     >
       <div className={styles.titleContainer}>
-        <i className="fas fa-edit" style={{ marginRight: "0.5rem" }}></i>
+        <FontAwesomeIcon
+          icon={faEdit}
+          style={{ marginRight: "0.5rem" }}
+        ></FontAwesomeIcon>
         <h1 className={styles.title}>협업 텍스트 에디터</h1>
       </div>
       <div className={styles.rightContainer}>
@@ -52,9 +61,9 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme, activeUsers }) => {
           aria-label="테마 전환"
         >
           {theme === "light" ? (
-            <i className="fas fa-moon"></i>
+            <FontAwesomeIcon icon={faMoon} />
           ) : (
-            <i className="fas fa-sun"></i>
+            <FontAwesomeIcon icon={faSun} />
           )}
         </button>
         <div className={styles.userButton}>
@@ -65,10 +74,10 @@ const Header: React.FC<HeaderProps> = ({ theme, toggleTheme, activeUsers }) => {
               className={styles.profileImage}
             />
             <span>박소연</span>
-            <i
-              className="fas fa-chevron-down"
+            <FontAwesomeIcon
+              icon={faChevronDown}
               style={{ fontSize: "0.75rem" }}
-            ></i>
+            ></FontAwesomeIcon>
           </button>
         </div>
       </div>

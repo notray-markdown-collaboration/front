@@ -1,6 +1,7 @@
 import React from "react";
 import styles from "./StatusBar.module.css";
-
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faEye, faEdit } from "@fortawesome/free-solid-svg-icons";
 interface User {
   id: number;
   name: string;
@@ -50,9 +51,9 @@ const StatusBar: React.FC<StatusBarProps> = ({
           ))}
         </div>
         <button onClick={toggleViewMode} className={styles.viewModeButton}>
-          <i
-            className={`fas ${viewMode === "edit" ? "fa-eye" : "fa-edit"}`}
-          ></i>
+          <FontAwesomeIcon
+            icon={viewMode === "edit" ? faEye : faEdit}
+          ></FontAwesomeIcon>
           <span>{viewMode === "edit" ? "미리보기" : "편집"}</span>
         </button>
       </div>
