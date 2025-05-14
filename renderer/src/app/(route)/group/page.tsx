@@ -1,9 +1,9 @@
 "use client";
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import * as echarts from "echarts";
-import Header from "./_components/Header";
-import Sidebar from "./_components/Sidebar";
-import MainContent from "./_components/MainContent";
+import Header from "./_components/layout/Header/Header";
+import Sidebar from "./_components/layout/Sidebar/Sidebar";
+import MainContent from "./_components/layout/MainContent/MainContent";
 import ToastNotification from "./_components/ToastNotification";
 import { FileItem } from "./_types";
 import styles from "./page.module.css";

@@ -134,3 +134,12 @@
   width: 100%;
   height: 7rem;
 }
+
+.iconMarginRight {
+  margin-right: 0.5rem;
+}
+
+.folderIconGray {
+  margin-right: 0.75rem;
+  color: #9ca3af; /* Tailwind text-gray-400 */
+}

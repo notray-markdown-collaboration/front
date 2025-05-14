@@ -1,22 +1,32 @@
-import React from "react";
 import styles from "./FileGrid.module.css";
-import { FileItem } from "../_types";
+import { FileItem } from "../../../../_types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFile,
+  faFilePdf,
+  faFileWord,
+  faFilePowerpoint,
+  faFileExcel,
+  faFileArchive,
+  faFileImage,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface FileGridProps {
   darkMode: boolean;
   files: FileItem[];
 }
 
-const FileGrid: React.FC<FileGridProps> = ({ darkMode, files }) => {
-  const getIconFa = (fileName: string) => {
-    if (fileName.endsWith(".docx")) return "fa-file-word";
-    if (fileName.endsWith(".pdf")) return "fa-file-pdf";
-    if (fileName.endsWith(".pptx")) return "fa-file-powerpoint";
-    if (fileName.endsWith(".xlsx")) return "fa-file-excel";
-    if (fileName.endsWith(".zip")) return "fa-file-archive";
+
+export default function FileGrid({ darkMode, files }: FileGridProps) {
+  const getIcon = (fileName: string) => {
+    if (fileName.endsWith(".docx")) return faFileWord;
+    if (fileName.endsWith(".pdf")) return faFilePdf;
+    if (fileName.endsWith(".pptx")) return faFilePowerpoint;
+    if (fileName.endsWith(".xlsx")) return faFileExcel;
+    if (fileName.endsWith(".zip")) return faFileArchive;
     if (fileName.endsWith(".png") || fileName.endsWith(".jpg"))
-      return "fa-file-image";
-    return "fa-file";
+      return faFileImage;
+    return faFile;
   };
 
   const getIconClass = (name: string) => {
@@ -40,11 +50,10 @@ const FileGrid: React.FC<FileGridProps> = ({ darkMode, files }) => {
           }`}
         >
           <div className={styles.iconRow}>
-            <i
-              className={`fas ${getIconFa(file.name)} ${getIconClass(
-                file.name
-              )}`}
-            ></i>
+            <FontAwesomeIcon
+              icon={getIcon(file.name)}
+              className={getIconClass(file.name)}
+            />
           </div>
           <h3 className={styles.filename} title={file.name}>
             {file.name}
@@ -60,6 +69,4 @@ const FileGrid: React.FC<FileGridProps> = ({ darkMode, files }) => {
       ))}
     </div>
   );
-};
-
-export default FileGrid;
+}

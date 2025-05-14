@@ -1,6 +1,7 @@
-import React from "react";
 import styles from "./Sidebar.module.css";
-import { Folder } from "../_types";
+import { Folder } from "../../../_types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPlus, faFolder } from "@fortawesome/free-solid-svg-icons";
 
 interface SidebarProps {
   darkMode: boolean;
@@ -10,13 +11,13 @@ interface SidebarProps {
   onSelectFolder: (folderId: string) => void;
 }
 
-const Sidebar: React.FC<SidebarProps> = ({
+export default function Sidebar({
   darkMode,
   sidebarOpen,
   folders,
   currentFolder,
   onSelectFolder,
-}) => {
+}: SidebarProps) {
   return (
     <aside
       className={`${styles.sidebar} ${
@@ -29,7 +30,7 @@ const Sidebar: React.FC<SidebarProps> = ({
             darkMode ? styles.bgBlue600Hover : styles.bgBlue500Hover
           }`}
         >
-          <i className="fas fa-plus" style={{ marginRight: "0.5rem" }}></i>
+          <FontAwesomeIcon icon={faPlus} className={styles.iconMarginRight} />
           <span>새 파일 만들기</span>
         </button>
       </div>
@@ -49,10 +50,10 @@ const Sidebar: React.FC<SidebarProps> = ({
                 }`}
               >
                 <div className={styles.folderLabel}>
-                  <i
-                    className="fas fa-folder"
-                    style={{ marginRight: "0.75rem", color: "#9CA3AF" }}
-                  ></i>
+                  <FontAwesomeIcon
+                    icon={faFolder}
+                    className={styles.folderIconGray}
+                  />
                   <span>{folder.name}</span>
                 </div>
                 <span
@@ -75,6 +76,4 @@ const Sidebar: React.FC<SidebarProps> = ({
       </div>
     </aside>
   );
-};
-
-export default Sidebar;
+}

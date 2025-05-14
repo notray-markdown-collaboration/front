@@ -1,23 +1,34 @@
-import React from "react";
 import styles from "./FileTable.module.css";
-import { FileItem } from "../_types";
+import { FileItem } from "../../../../_types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faFile,
+  faFilePdf,
+  faFileWord,
+  faFilePowerpoint,
+  faFileExcel,
+  faFileArchive,
+  faFileImage,
+  faEllipsisH,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface FileTableProps {
   darkMode: boolean;
   files: FileItem[];
 }
 
-const FileTable: React.FC<FileTableProps> = ({ darkMode, files }) => {
-  const getIconFa = (fileName: string) => {
-    if (fileName.endsWith(".docx")) return "fa-file-word";
-    if (fileName.endsWith(".pdf")) return "fa-file-pdf";
-    if (fileName.endsWith(".pptx")) return "fa-file-powerpoint";
-    if (fileName.endsWith(".xlsx")) return "fa-file-excel";
-    if (fileName.endsWith(".zip")) return "fa-file-archive";
+export default function FileTable({ darkMode, files }: FileTableProps) {
+  const getIcon = (fileName: string) => {
+    if (fileName.endsWith(".docx")) return faFileWord;
+    if (fileName.endsWith(".pdf")) return faFilePdf;
+    if (fileName.endsWith(".pptx")) return faFilePowerpoint;
+    if (fileName.endsWith(".xlsx")) return faFileExcel;
+    if (fileName.endsWith(".zip")) return faFileArchive;
     if (fileName.endsWith(".png") || fileName.endsWith(".jpg"))
-      return "fa-file-image";
-    return "fa-file";
+      return faFileImage;
+    return faFile;
   };
+
   const getIconClass = (fileName: string) => {
     if (fileName.endsWith(".docx")) return styles.iconWord;
     if (fileName.endsWith(".pdf")) return styles.iconPdf;
@@ -53,11 +64,10 @@ const FileTable: React.FC<FileTableProps> = ({ darkMode, files }) => {
             >
               <td className={styles.td}>
                 <div className={styles.nameCell}>
-                  <i
-                    className={`fas ${getIconFa(file.name)} ${getIconClass(
-                      file.name
-                    )} ${styles.icon}`}
-                  ></i>
+                  <FontAwesomeIcon
+                    icon={getIcon(file.name)}
+                    className={`${getIconClass(file.name)} ${styles.icon}`}
+                  />
                   <span className={styles.tdName}>{file.name}</span>
                 </div>
               </td>
@@ -66,7 +76,7 @@ const FileTable: React.FC<FileTableProps> = ({ darkMode, files }) => {
               <td className={styles.td}>{file.modifiedBy}</td>
               <td className={`${styles.td} ${styles.right}`}>
                 <button className={styles.actionBtn}>
-                  <i className="fas fa-ellipsis-h"></i>
+                  <FontAwesomeIcon icon={faEllipsisH} />
                 </button>
               </td>
             </tr>
@@ -75,6 +85,4 @@ const FileTable: React.FC<FileTableProps> = ({ darkMode, files }) => {
       </table>
     </div>
   );
-};
-
-export default FileTable;
+}
