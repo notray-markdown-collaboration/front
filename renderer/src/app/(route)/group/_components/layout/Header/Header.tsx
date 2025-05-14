@@ -1,6 +1,15 @@
-import React from "react";
 import styles from "./Header.module.css";
-import { Member } from "../_types";
+import { Member } from "../../../_types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faBars,
+  faUsers,
+  faSearch,
+  faBell,
+  faMoon,
+  faSun,
+  faCog,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface HeaderProps {
   darkMode: boolean;
@@ -9,12 +18,12 @@ interface HeaderProps {
   members: Member[];
 }
 
-const Header: React.FC<HeaderProps> = ({
+export default function Header({
   darkMode,
   onToggleSidebar,
   onToggleDarkMode,
   members,
-}) => {
+}: HeaderProps) {
   return (
     <header
       className={`${styles.header} ${
@@ -23,7 +32,7 @@ const Header: React.FC<HeaderProps> = ({
     >
       <div className={styles.leftSection}>
         <button onClick={onToggleSidebar} className={styles.iconButton}>
-          <i className="fas fa-bars"></i>
+          <FontAwesomeIcon icon={faBars} />
         </button>
         <div className={styles.teamInfo}>
           <div
@@ -31,7 +40,7 @@ const Header: React.FC<HeaderProps> = ({
               darkMode ? styles.bgBlue600 : styles.bgBlue500
             }`}
           >
-            <i className="fas fa-users text-white"></i>
+            <FontAwesomeIcon icon={faUsers} className={styles.iconWhite} />
           </div>
           <h1 className={styles.teamTitle}>디자인 팀 워크스페이스</h1>
         </div>
@@ -43,7 +52,7 @@ const Header: React.FC<HeaderProps> = ({
         }`}
       >
         <div className={styles.searchIcon}>
-          <i className="fas fa-search text-gray-400"></i>
+          <FontAwesomeIcon icon={faSearch} className={styles.iconGray} />
         </div>
         <input
           type="text"
@@ -80,20 +89,18 @@ const Header: React.FC<HeaderProps> = ({
         </div>
 
         <button className={styles.iconButton}>
-          <i className="fas fa-bell"></i>
+          <FontAwesomeIcon icon={faBell} />
           <span className={styles.notificationDot}></span>
         </button>
 
         <button onClick={onToggleDarkMode} className={styles.iconButton}>
-          <i className={`fas ${darkMode ? "fa-sun" : "fa-moon"}`}></i>
+          <FontAwesomeIcon icon={darkMode ? faSun : faMoon} />
         </button>
 
         <button className={styles.iconButton}>
-          <i className="fas fa-cog"></i>
+          <FontAwesomeIcon icon={faCog} />
         </button>
       </div>
     </header>
   );
-};
-
-export default Header;
+}

@@ -1,9 +1,14 @@
-// 메인 문서 부분
-import React from "react";
-import { FileItem } from "../_types";
 import styles from "./MainContent.module.css";
-import FileTable from "./FileTable";
-import FileGrid from "./FileGrid";
+import { FileItem } from "../../../_types";
+import FileTable from "../../domain/file/FileGrid/FileGrid";
+import FileGrid from "../../domain/file/FileTable/FileTable";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {
+  faList,
+  faThLarge,
+  faSortAmountDown,
+  faFilter,
+} from "@fortawesome/free-solid-svg-icons";
 
 interface MainContentProps {
   darkMode: boolean;
@@ -13,13 +18,13 @@ interface MainContentProps {
   onToggleViewMode: () => void;
 }
 
-const MainContent: React.FC<MainContentProps> = ({
+export default function MainContent({
   darkMode,
   viewMode,
   currentFolder,
   files,
   onToggleViewMode,
-}) => {
+}: MainContentProps) {
   return (
     <main
       className={`${styles.main} ${
@@ -55,7 +60,7 @@ const MainContent: React.FC<MainContentProps> = ({
                 }`}
                 onClick={onToggleViewMode}
               >
-                <i className="fas fa-list"></i>
+                <FontAwesomeIcon icon={faList} />
               </button>
               <button
                 className={`${styles.toggleBtn} ${
@@ -67,7 +72,7 @@ const MainContent: React.FC<MainContentProps> = ({
                 }`}
                 onClick={onToggleViewMode}
               >
-                <i className="fas fa-th-large"></i>
+                <FontAwesomeIcon icon={faThLarge} />
               </button>
             </div>
 
@@ -78,7 +83,7 @@ const MainContent: React.FC<MainContentProps> = ({
                   : styles.activeLightControlBtn
               }`}
             >
-              <i className="fas fa-sort-amount-down"></i>
+              <FontAwesomeIcon icon={faSortAmountDown} />
             </button>
 
             <button
@@ -88,7 +93,7 @@ const MainContent: React.FC<MainContentProps> = ({
                   : styles.activeLightControlBtn
               }`}
             >
-              <i className="fas fa-filter"></i>
+              <FontAwesomeIcon icon={faFilter} />
             </button>
           </div>
         </div>
@@ -101,6 +106,5 @@ const MainContent: React.FC<MainContentProps> = ({
       </div>
     </main>
   );
-};
+}
 
-export default MainContent;

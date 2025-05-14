@@ -77,3 +77,15 @@
 .closeButton:hover {
   color: #6b7280;
 }
+
+.iconCheck {
+  color: #10b981;
+}
+
+.iconCheckDark {
+  color: #6ee7b7;
+}
+
+.iconCircleDark {
+  background-color: #064e3b;
+}
