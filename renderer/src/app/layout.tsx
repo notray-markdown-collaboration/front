@@ -1,7 +1,9 @@
 import Head from "next/head";
 import "./globals.css";
 import BodyThemeProvider from "./_provider/BodyThemeProvider";
-
+import "@fortawesome/fontawesome-svg-core/styles.css";
+import { config } from "@fortawesome/fontawesome-svg-core";
+config.autoAddCss = false;
 export default function RootLayout({
   children,
 }: Readonly<{
