@@ -9,6 +9,11 @@ import { useRouter } from "next/navigation";
 export default function HomePage() {
   const router = useRouter();
 
+  useEffect(() => {
+    router.prefetch("/edit");
+    router.prefetch("/editTest");
+    router.prefetch("/group");
+  }, []);
   const edit = () => {
     router.push("/edit");
   };
@@ -17,7 +22,7 @@ export default function HomePage() {
   };
   const group = () => {
     router.push("/group");
-  }
+  };
 
   const onClickLogout = () => {
     const param: SwitchWindow = {

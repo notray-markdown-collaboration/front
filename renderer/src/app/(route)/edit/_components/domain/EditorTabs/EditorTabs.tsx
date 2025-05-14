@@ -15,13 +15,13 @@ interface EditorTabsProps {
   setOpenFiles: (files: string[]) => void;
 }
 
-const EditorTabs: React.FC<EditorTabsProps> = ({
+export default function EditorTabs({
   theme,
   activeFile,
   setActiveFile,
   openFiles,
   setOpenFiles,
-}) => {
+}: EditorTabsProps) {
   const closeFile = (file: string, e: React.MouseEvent) => {
     e.stopPropagation();
     const newOpenFiles = openFiles.filter((f) => f !== file);
@@ -69,6 +69,4 @@ const EditorTabs: React.FC<EditorTabsProps> = ({
       })}
     </div>
   );
-};
-
-export default EditorTabs;
+}
