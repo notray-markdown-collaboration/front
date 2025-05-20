@@ -11,7 +11,7 @@ type Line = {
   isEditing: boolean;
 };
 
-const MIN_LINES = 10;
+const MIN_LINES = 30;
 
 export default function MarkdownEditor() {
   const initialLines: Line[] = Array.from({ length: MIN_LINES }, (_, i) => ({
