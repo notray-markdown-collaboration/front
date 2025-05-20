@@ -10,6 +10,8 @@ import {
   faSun,
   faCog,
 } from "@fortawesome/free-solid-svg-icons";
+import { useSettingsStore } from "app/_store/settingStore";
+import SettingsModal from "../../SettingsModal";
 
 interface HeaderProps {
   darkMode: boolean;
@@ -24,6 +26,8 @@ export default function Header({
   onToggleDarkMode,
   members,
 }: HeaderProps) {
+  const openSetting = useSettingsStore((s) => s.open);
+
   return (
     <header
       className={`${styles.header} ${
@@ -97,9 +101,10 @@ export default function Header({
           <FontAwesomeIcon icon={darkMode ? faSun : faMoon} />
         </button>
 
-        <button className={styles.iconButton}>
+        <button onClick={openSetting} className={styles.iconButton}>
           <FontAwesomeIcon icon={faCog} />
         </button>
+        <SettingsModal />
       </div>
     </header>
   );

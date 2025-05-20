@@ -1,0 +1,149 @@
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 50;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(4px);
+  animation: fadeIn 0.3s ease-out;
+}
+
+.modal {
+  display: flex;
+  width: 100%;
+  max-width: 64rem;
+  border-radius: 1rem;
+  box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+  overflow: hidden;
+  transform: scale(1);
+  transition: all 0.3s ease-in-out;
+}
+
+.dark {
+  background-color: #1f2937;
+  color: #fff;
+}
+
+.light {
+  background-color: #fff;
+  color: #000;
+}
+
+.sidebar {
+  width: 16rem;
+  border-right: 1px solid #e5e7eb;
+  padding: 1rem;
+}
+
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 1.5rem;
+}
+
+.tabList {
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.tabButton {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem 1rem;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+  color: #4b5563;
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.tabButton:hover {
+  background-color: #f9fafb;
+}
+
+.activeTab {
+  background-color: #eff6ff;
+  color: #2563eb;
+}
+
+.content {
+  flex: 1;
+  padding: 1.5rem;
+  max-height: 600px;
+  overflow-y: auto;
+}
+
+.inputGroup {
+  display: flex;
+  margin-bottom: 0.5rem;
+}
+
+.inputGroup input {
+  flex: 1;
+  padding: 0.5rem;
+  border: 1px solid #d1d5db;
+  border-radius: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.inputGroup button {
+  margin-left: 0.5rem;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  cursor: pointer;
+}
+
+.radio {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.5rem;
+  font-size: 0.875rem;
+}
+
+.radio input {
+  margin-right: 0.5rem;
+}
+
+.footer {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 1rem;
+  padding-top: 1rem;
+  border-top: 1px solid #e5e7eb;
+}
+
+.primary {
+  background-color: #3b82f6;
+  color: white;
+  padding: 0.5rem 1rem;
+  border-radius: 0.5rem;
+  border: none;
+}
+
+.danger {
+  background: none;
+  color: #dc2626;
+  padding: 0.5rem 1rem;
+  border: none;
+}
+
+@keyframes fadeIn {
+  from {
+    transform: scale(0.95);
+    opacity: 0;
+  }
+  to {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
