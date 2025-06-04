@@ -1,0 +1,1 @@
+export interface ReadingFile { path: string; content: string }

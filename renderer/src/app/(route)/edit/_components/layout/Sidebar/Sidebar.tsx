@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styles from "./Sidebar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
@@ -10,6 +10,9 @@ import {
   faFolderPlus,
   faEllipsisH,
 } from "@fortawesome/free-solid-svg-icons";
+import { FileNode } from "app/(route)/edit/_types/edit.type";
+import { ReadingFile } from "app/_types/readingFile";
+import { useReadingFileStore } from "app/_store/readingFileStore";
 
 interface SidebarProps {
   theme: "light" | "dark";
@@ -33,65 +36,47 @@ const Sidebar: React.FC<SidebarProps> = ({
   expandedFolders,
   setExpandedFolders,
 }) => {
-  const toggleFolder = (folder: string) => {
-    if (expandedFolders.includes(folder)) {
-      setExpandedFolders(expandedFolders.filter((f) => f !== folder));
+  const [tree, setTree] = useState<FileNode | null>(null);
+  const [openFolders, setOpenFolders] = useState<Set<string>>(new Set());
+  const { selectedFile, setSelectedFile } = useReadingFileStore();
+  const handleOpenFolder = async () => {
+    const result = await window.ipc.invoke('open-folder-recursive');
+    
+    if (result) setTree(result);
+    setSelectedFile(null);
+  };
+
+  const toggleFolder = (path: string) => {
+    setOpenFolders(prev => {
+      const newSet = new Set(prev);
+      newSet.has(path) ? newSet.delete(path) : newSet.add(path);
+      return newSet;
+    });
+  };
+
+  const handleFileClick = async (filePath: string) => {
+    const result = await window.ipc.invoke('read-file', filePath);
+    if (result.success) {
+      setSelectedFile({ path: filePath, content: result.content });
     } else {
-      setExpandedFolders([...expandedFolders, folder]);
+      alert(`파일을 읽는 중 오류 발생: ${result.error}`);
     }
   };
 
-  const getMarginClass = (level: number) => {
-    switch (level) {
-      case 1:
-        return styles["ml-4"];
-      case 2:
-        return styles["ml-8"];
-      case 3:
-        return styles["ml-12"];
-      case 4:
-        return styles["ml-16"];
-      default:
-        return styles["ml-0"];
-    }
-  };
 
-  const renderTree = (parent: string | null, level: number = 0) => {
-    return Object.entries(fileStructure)
-      .filter(([_, info]) => info.parent === parent)
-      .map(([path, info]) => {
-        const marginClass = getMarginClass(level);
-        if (info.type === "file") {
-          const isActive = activeFile === path;
-          return (
-            <div
-              key={path}
-              onClick={() => openFile(path)}
-              className={`${styles.fileItem} ${marginClass} ${
-                isActive
-                  ? theme === "dark"
-                    ? styles.activeFileDark
-                    : styles.activeFileLight
-                  : ""
-              }`}
-            >
-              <FontAwesomeIcon
-                icon={faFileAlt}
-                style={{ marginRight: "0.5rem", color: "#3b82f6" }}
-              ></FontAwesomeIcon>
-              <span className="truncate">{path.split("/").pop()}</span>
-            </div>
-          );
-        } else {
-          const isExpanded = expandedFolders.includes(path);
-          return (
-            <div key={path} className={marginClass}>
+
+  const renderTree = (node: FileNode, depth = 0) => {
+    const isOpen = openFolders.has(node.path);
+    const isTextFile = node.name.endsWith('.md') || node.name.endsWith('.txt');
+     return (
+      <div key={node.path} style={{ marginLeft: depth * 16 }}>
+        {node.isDirectory ? (
               <div
-                onClick={() => toggleFolder(path)}
+                onClick={() => toggleFolder(node.path)} style={{ cursor: 'pointer' }}
                 className={styles.folderItem}
               >
                 <FontAwesomeIcon
-                  icon={isExpanded ? faChevronDown : faChevronRight}
+                  icon={isOpen ? faChevronDown : faChevronRight}
                   style={{
                     fontSize: "0.75rem",
                     marginRight: "0.375rem",
@@ -102,13 +87,32 @@ const Sidebar: React.FC<SidebarProps> = ({
                   icon={faFolder}
                   className={styles.folderIcon}
                 ></FontAwesomeIcon>
-                <span className="truncate">{path.split("/").pop()}</span>
+                <span className="truncate">{node.name}</span>
               </div>
-              {isExpanded && renderTree(path, level + 1)}
-            </div>
-          );
-        }
-      });
+        ) : (
+          
+      <div
+      key={node.name}
+      onClick={isTextFile ? () => handleFileClick(node.path) : undefined}
+      className={`${styles.fileItem}${
+        selectedFile?.path === node.path ?
+          theme === "dark"
+            ? styles.activeFileDark
+            : styles.activeFileLight
+          :
+          ""
+      }`}
+    >
+      <FontAwesomeIcon
+        icon={faFileAlt}
+        style={{ marginRight: "0.5rem", color: "#3b82f6" }}
+      ></FontAwesomeIcon>
+      <span className="truncate">{node.name}</span>
+      </div>
+      )}
+      {isOpen && node.children?.map(child => renderTree(child, depth + 1))}
+      </div>
+     )
   };
 
   const themeClass = theme === "dark" ? styles.darkTheme : styles.lightTheme;
@@ -130,7 +134,7 @@ const Sidebar: React.FC<SidebarProps> = ({
               style={{ fontSize: "0.75rem", lineHeight: "1rem" }}
             ></FontAwesomeIcon>
           </button>
-          <button className={styles.iconButton}>
+          <button className={styles.iconButton} onClick={handleOpenFolder}> {/* 나머지*/}
             <FontAwesomeIcon
               icon={faEllipsisH}
               style={{ fontSize: "0.75rem", lineHeight: "1rem" }}
@@ -138,7 +142,7 @@ const Sidebar: React.FC<SidebarProps> = ({
           </button>
         </div>
       </div>
-      <div className={styles.fileTree}>{renderTree(null)}</div>
+      <div className={styles.fileTree}>{tree ? renderTree(tree) : "폴더를 선택해주세요."}</div>
     </aside>
   );
 };
