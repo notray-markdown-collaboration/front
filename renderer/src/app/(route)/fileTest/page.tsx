@@ -37,26 +37,32 @@ export default function FolderViewer() {
   };
 
   const renderTree = (node: FileNode, depth = 0) => {
-    const isOpen = openFolders.has(node.path);
+  const isOpen = openFolders.has(node.path);
+  const isTextFile = node.name.endsWith('.md') || node.name.endsWith('.txt');
 
-    return (
-      <div key={node.path} style={{ marginLeft: depth * 16 }}>
-        {node.isDirectory ? (
-          <div onClick={() => toggleFolder(node.path)} style={{ cursor: 'pointer' }}>
-            {isOpen ? '📂' : '📁'} {node.name}
-          </div>
-        ) : (
-          <div
-            onClick={() => handleFileClick(node.path)}
-            style={{ cursor: 'pointer', color: 'blue' }}
-          >
-            📄 {node.name}
-          </div>
-        )}
-        {isOpen && node.children?.map(child => renderTree(child, depth + 1))}
-      </div>
-    );
-  };
+  return (
+    <div key={node.path} style={{ marginLeft: depth * 16 }}>
+      {node.isDirectory ? (
+        <div onClick={() => toggleFolder(node.path)} style={{ cursor: 'pointer' }}>
+          {isOpen ? '📂' : '📁'} {node.name}
+        </div>
+      ) : (
+        <div
+          onClick={isTextFile ? () => handleFileClick(node.path) : undefined}
+          style={{
+            cursor: isTextFile ? 'pointer' : 'default',
+            color: isTextFile ? 'blue' : 'gray',
+          }}
+          title={isTextFile ? '' : 'md 또는 txt 파일만 열 수 있습니다.'}
+        >
+          📄 {node.name}
+        </div>
+      )}
+      {isOpen && node.children?.map(child => renderTree(child, depth + 1))}
+    </div>
+  );
+};
+
 
   return (
     <div style={{ display: 'flex' }}>
