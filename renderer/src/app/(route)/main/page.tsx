@@ -13,6 +13,7 @@ export default function HomePage() {
     router.prefetch("/edit");
     router.prefetch("/editTest");
     router.prefetch("/group");
+    router.prefetch('/fileTest')
   }, []);
   const edit = () => {
     router.push("/edit");
@@ -23,7 +24,9 @@ export default function HomePage() {
   const group = () => {
     router.push("/group");
   };
-
+  const fileTest = () => {
+    router.push(('/fileTest'))
+  }
   const onClickLogout = () => {
     const param: SwitchWindow = {
       width: 700,
@@ -61,7 +64,7 @@ export default function HomePage() {
               개인
             </button>
             <button className={styles.inactive}>그룹</button>
-            <button className={styles.inactive}>즐겨찾기</button>
+            <button className={styles.inactive} onClick={fileTest}>즐겨찾기</button>
           </div>
           <div className={styles.actions}>
             <div className={styles.searchBox}>

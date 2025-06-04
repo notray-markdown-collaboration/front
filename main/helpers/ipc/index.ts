@@ -3,5 +3,5 @@ import StoreIpc from "./store";
 import SwitchWindowIpc from "./switchWindow";
 import ToggleDevToolsIpc from "./toggleDevTools";
 import UrlIpc from "./url";
-
-export { DarkModeIpc, StoreIpc, SwitchWindowIpc, ToggleDevToolsIpc, UrlIpc };
+import FolderOpen from "./folderOpen";
+export { DarkModeIpc, StoreIpc, SwitchWindowIpc, ToggleDevToolsIpc, UrlIpc, FolderOpen };
