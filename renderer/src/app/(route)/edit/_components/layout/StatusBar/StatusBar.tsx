@@ -2,6 +2,8 @@ import React from "react";
 import styles from "./StatusBar.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faEye, faEdit } from "@fortawesome/free-solid-svg-icons";
+import { useReadingFileStore } from "app/_store/readingFileStore";
+import { getFilename } from "app/(route)/edit/_utils/GetFileName";
 interface User {
   id: number;
   name: string;
@@ -11,7 +13,6 @@ interface User {
 
 interface StatusBarProps {
   theme: "light" | "dark";
-  activeFile: string;
   activeUsers: User[];
   viewMode: "edit" | "preview";
   toggleViewMode: () => void;
@@ -19,19 +20,17 @@ interface StatusBarProps {
 
 const StatusBar: React.FC<StatusBarProps> = ({
   theme,
-  activeFile,
   activeUsers,
   viewMode,
   toggleViewMode,
 }) => {
   const themeClass = theme === "dark" ? styles.darkTheme : styles.lightTheme;
-
+  const { selectedFile } = useReadingFileStore();
   return (
     <div className={`${styles.statusBar} ${themeClass}`}>
       <div className={styles.leftGroup}>
-        <span>{activeFile}</span>
-        <span>마크다운</span>
-        <span>UTF-8</span>
+        <span>{getFilename(selectedFile?.path ?? '')}</span>
+        <span>{selectedFile?.path.endsWith(".md") ? '마크다운' : selectedFile?.path.endsWith(".txt") ? '텍스트' : '알수없음'}</span>
       </div>
       <div className={styles.rightGroup}>
         <div className={styles.collaboratorGroup}>

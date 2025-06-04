@@ -54,7 +54,6 @@ export default function HomePage() {
 
           <StatusBar
             theme={theme}
-            activeFile={activeFile}
             activeUsers={initialUsers}
             viewMode={viewMode}
             toggleViewMode={toggleViewMode}
