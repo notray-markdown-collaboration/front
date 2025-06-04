@@ -16,11 +16,7 @@ import MarkdownEditor from "../editTest/page";
 
 export default function HomePage() {
   const [activeFile, setActiveFile] = useState("README.md");
-  const [openFiles, setOpenFiles] = useState([
-    "README.md",
-    "project.md",
-    "tasks.md",
-  ]);
+
   const [viewMode, setViewMode] = useState<"edit" | "preview">("edit");
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
@@ -49,8 +45,6 @@ export default function HomePage() {
             theme={theme}
             activeFile={activeFile}
             setActiveFile={setActiveFile}
-            openFiles={openFiles}
-            setOpenFiles={setOpenFiles}
           />
 
           <div className={styles.editorContainer}>
