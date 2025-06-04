@@ -16,25 +16,10 @@ import { useReadingFileStore } from "app/_store/readingFileStore";
 
 interface SidebarProps {
   theme: "light" | "dark";
-  fileStructure: Record<
-    string,
-    { type: "file" | "folder"; parent: string | null }
-  >;
-  activeFile: string;
-  openFile: (path: string) => void;
-  openFiles: string[];
-  setOpenFiles: (paths: string[]) => void;
-  expandedFolders: string[];
-  setExpandedFolders: (folders: string[]) => void;
 }
 
 const Sidebar: React.FC<SidebarProps> = ({
   theme,
-  fileStructure,
-  activeFile,
-  openFile,
-  expandedFolders,
-  setExpandedFolders,
 }) => {
   const [tree, setTree] = useState<FileNode | null>(null);
   const [openFolders, setOpenFolders] = useState<Set<string>>(new Set());

@@ -1,9 +1,11 @@
 "use client";
-import React, { useRef, useState } from "react";
+
+import { useEffect, useRef, useState } from "react";
+import { useReadingFileStore } from "app/_store/readingFileStore"; 
 import ReactMarkdown from "react-markdown";
-import styles from "./page.module.css";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
+import styles from "./page.module.css";
 
 type Line = {
   id: number;
@@ -14,17 +16,33 @@ type Line = {
 const MIN_LINES = 30;
 
 export default function MarkdownEditor() {
-  const initialLines: Line[] = Array.from({ length: MIN_LINES }, (_, i) => ({
-    id: i + 1,
-    text: "",
-    isEditing: true,
-  }));
+  const { selectedFile } = useReadingFileStore();
+  const [lines, setLines] = useState<Line[]>([]);
+  const inputRefs = useRef<Array<HTMLTextAreaElement | null>>([]);
   const ctrlACountRef = useRef(0);
   const lastCtrlATime = useRef(0);
-  const [lines, setLines] = useState<Line[]>(initialLines);
-  const inputRefs = useRef<Array<HTMLTextAreaElement | null>>([]);
+  const [txtValue, setTxtValue] = useState("");
 
-  const handleKeyDown = (
+  useEffect(() => {
+    if (!selectedFile) return;
+
+    if (selectedFile.path.endsWith(".md")) {
+      const mdLines = selectedFile.content.split("\n").map((line, i) => ({
+        id: i + 1,
+        text: line,
+        isEditing: false,
+      }));
+      setLines(mdLines.length > 0 ? mdLines : Array.from({ length: MIN_LINES }, (_, i) => ({
+        id: i + 1,
+        text: "",
+        isEditing: true,
+      })));
+    } else if (selectedFile.path.endsWith(".txt")) {
+      setTxtValue(selectedFile.content);
+    }
+  }, [selectedFile]);
+
+ const handleKeyDown = (
     e: React.KeyboardEvent<HTMLTextAreaElement>,
     index: number
   ) => {
@@ -126,107 +144,104 @@ export default function MarkdownEditor() {
 
   const handleLineClick = (index: number) => {
     setLines((prev) =>
-      prev.map((line, i) => (i === index ? { ...line, isEditing: true } : line))
+      prev.map((line, i) =>
+        i === index ? { ...line, isEditing: true } : line
+      )
     );
-
     setTimeout(() => {
       inputRefs.current[index]?.focus();
     }, 0);
   };
 
+  if (!selectedFile) return <div>파일을 선택하세요.</div>;
+
   return (
     <div className={styles.wrapper}>
-      {lines.map((line, idx) =>
-        line.isEditing ? (
-          <textarea
-            key={line.id}
-            ref={(el) => {
+      {selectedFile.path.endsWith(".txt") ? (
+        <textarea
+          value={txtValue}
+          onChange={(e) => setTxtValue(e.target.value)}
+          className={styles.textarea}
+          style={{ minHeight: "500px", width: "100%" }}
+        />
+      ) : (
+        lines.map((line, idx) =>
+          line.isEditing ? (
+            <textarea
+              key={line.id}
+              ref={(el) => {
               inputRefs.current[idx] = el;
               if (el) {
                 el.style.height = "auto";
                 el.style.height = el.scrollHeight + "px";
               }
             }}
-            className={styles.textarea}
-            value={line.text}
-            onChange={(e) => {
-              handleChange(idx, e.target.value);
-              const target = e.target;
-              target.style.height = "auto";
-              target.style.height = target.scrollHeight + "px";
-            }}
-            onKeyDown={(e) => handleKeyDown(e, idx)}
-            onBlur={() => {
-              setLines((prev) => {
-                console.log(prev);
-                const updated = [...prev];
-                updated[idx].isEditing = false;
-                return updated;
-              });
-            }}
-            rows={1}
-          />
-        ) : (
-          <div
-            key={line.id}
-            className={styles.markdownLine}
-            onClick={() => handleLineClick(idx)}
-          >
-            <ReactMarkdown
-              components={{
-                code({ node, inline, className, children, ...props }: any) {
-                  const match = /language-(\w+)/.exec(className || "");
-                  const lang = match?.[1] || "";
-                  const supportedLanguages = [
-                    "js",
-                    "javascript",
-                    "ts",
-                    "typescript",
-                    "json",
-                    "html",
-                    "css",
-                    "bash",
-                    "python",
-                    "java",
-                    "c",
-                    "cpp",
-                    "tsx",
-                    "jsx",
-                  ];
-                  const validLang = supportedLanguages.includes(lang)
-                    ? lang
-                    : "text";
-
-                  return !inline ? (
-                    <SyntaxHighlighter
-                      style={oneDark as any}
-                      language={validLang}
-                      PreTag="div"
-                      showLineNumbers
-                      wrapLines
-                      lineProps={{ style: { whiteSpace: "pre-wrap" } }}
-                      customStyle={{
-                        background: "#0e1117",
-                        fontSize: "0.9rem",
-                        padding: "1rem",
-                        borderRadius: "8px",
-                        border: "1px solid #333",
-                      }}
-                      {...props}
-                    >
-                      {String(children).replace(/\n$/, "")}
-                    </SyntaxHighlighter>
-                  ) : (
-                    <code className={className} {...props}>
-                      {children}
-                    </code>
-                  );
-                },
+              className={styles.textarea}
+              value={line.text}
+              onChange={(e) => {
+                handleChange(idx, e.target.value);
+                const target = e.target;
+                target.style.height = "auto";
+                target.style.height = target.scrollHeight + "px";
               }}
+              onKeyDown={(e) => handleKeyDown(e, idx)}
+              onBlur={() =>
+                setLines((prev) => {
+                  const updated = [...prev];
+                  updated[idx].isEditing = false;
+                  return updated;
+                })
+              }
+              rows={1}
+            />
+          ) : (
+            <div
+              key={line.id}
+              className={styles.markdownLine}
+              onClick={() => handleLineClick(idx)}
             >
-              {line.text}
-            </ReactMarkdown>
-          </div>
+              <ReactMarkdown
+                components={{
+                  code({ node, inline, className, children, ...props }: any) {
+                    const match = /language-(\w+)/.exec(className || "");
+                    const lang = match?.[1] || "";
+                    const supportedLanguages = [
+                      "js", "ts", "tsx", "jsx",
+                      "html", "css", "json", "bash",
+                      "python", "java", "c", "cpp",
+                    ];
+                    const validLang = supportedLanguages.includes(lang) ? lang : "text";
+
+                    return !inline ? (
+                      <SyntaxHighlighter
+                        style={oneDark}
+                        language={validLang}
+                        PreTag="div"
+                        showLineNumbers
+                        wrapLines
+                        customStyle={{
+                          background: "#0e1117",
+                          fontSize: "0.9rem",
+                          padding: "1rem",
+                          borderRadius: "8px",
+                          border: "1px solid #333",
+                        }}
+                        {...props}
+                      >
+                        {String(children).replace(/\n$/, "")}
+                      </SyntaxHighlighter>
+                    ) : (
+                      <code className={className} {...props}>
+                        {children}
+                      </code>
+                    );
+                  },
+                }}
+              >
+                {line.text}
+              </ReactMarkdown>
+            </div>
+          )
         )
       )}
     </div>

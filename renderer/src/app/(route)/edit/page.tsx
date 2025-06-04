@@ -21,7 +21,6 @@ export default function HomePage() {
     "project.md",
     "tasks.md",
   ]);
-  const [expandedFolders, setExpandedFolders] = useState(["docs", "src"]);
   const [viewMode, setViewMode] = useState<"edit" | "preview">("edit");
   const [theme, setTheme] = useState<"light" | "dark">("light");
 
@@ -43,13 +42,6 @@ export default function HomePage() {
       <div className={styles.sidebarContainer}>
         <Sidebar
           theme={theme}
-          fileStructure={fileStructure}
-          activeFile={activeFile}
-          openFile={setActiveFile}
-          openFiles={openFiles}
-          setOpenFiles={setOpenFiles}
-          expandedFolders={expandedFolders}
-          setExpandedFolders={setExpandedFolders}
         />
 
         <main className={styles.mainContent}>
