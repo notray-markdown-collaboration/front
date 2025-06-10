@@ -15,7 +15,6 @@
   font-size: 1rem;
   font-family: monospace;
   padding: 0;
-  line-height: 1;
   resize: none;
   outline: none;
   overflow: hidden;
@@ -37,7 +36,6 @@
 .markdownLine h3,
 .markdownLine p {
   margin: 0;
-  line-height: 1;
 }
 
 .markdownLine {
@@ -45,7 +43,6 @@
   color: #f8f8f2;
   font-family: "Fira Code", monospace;
   font-size: 1rem;
-  line-height: 1.6;
   padding: 0.2rem 0;
   cursor: text;
   white-space: pre-wrap;
