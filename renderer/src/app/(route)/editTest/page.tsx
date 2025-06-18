@@ -35,7 +35,7 @@ const turndownService = new TurndownService();
 export default function EditTestPage() {
   // 에디터의 마크다운 콘텐츠를 관리할 상태
   const [markdownContent, setMarkdownContent] = useState<string>(
-    '# Next.js 14 Tiptap!\n\n이것은 **단일 페이지**에 구현된 Tiptap WYSIWYG 마크다운 편집기입니다.\n\n- 항목 1\n- 항목 2\n\n```javascript\nconsole.log("안녕, 세상!");\n```\n\n[구글](https://google.com)\n\n![Tiptap 로고](https://tiptap.dev/favicon.ico)\n'
+    '# Next.js 14 Tiptap!\n\n이것은 **단일 페이지**에 구현된 Tiptap WYSIWYG 마크다운 편집기입니다.\n\n- 항목 1\n- 항목 2\n\n```javascript\nconsole.log("안녕, 세상!");\n```\n\n[구글](https://google.com)\n\n![Tiptap 로고](https://www.next-t.co.kr/public/uploads/7b7f7e2138e29e598cd0cdf2c85ea08d.jpg)\n'
   );
 
   const editor = useEditor({
@@ -126,12 +126,9 @@ export default function EditTestPage() {
   }
 
   return (
-    <main style={{ padding: '40px', maxWidth: '800px', margin: '0 auto' }}>
-      <h1 style={{ fontSize: '2.5em', fontWeight: 'bold', marginBottom: '30px', textAlign: 'center' }}>
-        Next.js 14 Tiptap 마크다운 에디터 (단일 페이지)
-      </h1>
-      <div className={styles.tiptapEditorWrapper}> {/* page.module.css의 클래스 사용 */}
-        <div className={styles.tiptapToolbar}>
+    <main style={{overflow: 'auto', height: '100%'}}>
+      <div style={{overflow: 'auto'}} className={styles.tiptapEditorWrapper}> {/* page.module.css의 클래스 사용 */}
+        <div style={{overflow: 'auto'}} className={styles.tiptapToolbar}>
           <button
             onClick={() => editor.chain().focus().toggleBold().run()}
             disabled={!editor.can().chain().focus().toggleBold().run()}
