@@ -1,8 +1,5 @@
 "use client";
-import Link from "next/link";
-import Image from "next/image";
-import { Fragment, useEffect, useState } from "react";
-import ReactMarkdown from "react-markdown";
+import { useEffect } from "react";
 import styles from "./page.module.css";
 import { SwitchWindow } from "app/_types/switch";
 import { useRouter } from "next/navigation";
@@ -13,7 +10,6 @@ export default function HomePage() {
     router.prefetch("/edit");
     router.prefetch("/editTest");
     router.prefetch("/group");
-    router.prefetch('/fileTest')
   }, []);
   const edit = () => {
     router.push("/edit");
@@ -24,9 +20,6 @@ export default function HomePage() {
   const group = () => {
     router.push("/group");
   };
-  const fileTest = () => {
-    router.push(('/fileTest'))
-  }
   const onClickLogout = () => {
     const param: SwitchWindow = {
       width: 700,
@@ -64,7 +57,7 @@ export default function HomePage() {
               개인
             </button>
             <button className={styles.inactive}>그룹</button>
-            <button className={styles.inactive} onClick={fileTest}>즐겨찾기</button>
+            <button className={styles.inactive}>즐겨찾기</button>
           </div>
           <div className={styles.actions}>
             <div className={styles.searchBox}>

@@ -5,7 +5,6 @@ import github from "../../../../public/images/githubWhite.svg";
 import google from "../../../../public/images/google.svg";
 import setting from "../../../../public/images/setting.svg";
 import Image from "next/image";
-import Link from "next/link";
 import { useRouter } from "next/navigation";
 import useAuthStore from "app/_store/useAuthStore";
 import { useEffect } from "react";
