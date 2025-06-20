@@ -18,6 +18,7 @@ export default function BodyThemeProvider() {
   useEffect(() => {
     console.log(theme);
     document.body.className = theme;
+    document.documentElement.setAttribute('theme-data', theme)
   }, [theme]);
 
   return null;
