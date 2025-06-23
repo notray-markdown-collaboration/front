@@ -248,3 +248,9 @@ video {
   color: #000000;
   transition: background-color 0.3s, color 0.3s;
 }
+
+/**tiptap outline 지우는 용*/
+.ProseMirror {
+  outline: 0;
+  height: 100%;
+}

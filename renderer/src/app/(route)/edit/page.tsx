@@ -12,7 +12,7 @@ import {
   initialUsers,
   sampleMarkdown,
 } from "./_utils/constants";
-import MarkdownEditor from "../editTest/page";
+import MarkdownEditor from "./_components/domain/MarkdownEditor/MarkdownEditor"; 
 
 export default function HomePage() {
   const [activeFile, setActiveFile] = useState("README.md");

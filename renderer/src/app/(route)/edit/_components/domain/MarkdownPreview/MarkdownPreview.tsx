@@ -1,6 +1,12 @@
 import React from "react";
 import styles from "./MarkdownPreview.module.css";
-
+/**혹시 몰라서 남겨둠 */
+{/* <div style={{ marginTop: '30px', padding: '20px', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
+  <h2 style={{ fontSize: '1.5em', fontWeight: 'semibold', marginBottom: '10px' }}>생성된 마크다운:</h2>
+  <pre style={{ whiteSpace: 'pre-wrap', fontSize: '0.9em', lineHeight: '1.5', backgroundColor: '#eee', padding: '10px', borderRadius: '4px' }}>
+    {markdownContent}
+  </pre>
+</div> */}
 interface MarkdownPreviewProps {
   theme: "light" | "dark";
   viewMode: "edit" | "preview";

@@ -1,113 +1,40 @@
-'use client';
-import { useState, useCallback, useEffect } from 'react';
-import { useEditor, EditorContent } from '@tiptap/react';
-import StarterKit from '@tiptap/starter-kit';
+import { useCallback } from "react";
+import { Editor } from '@tiptap/react'
+import styles from './EditorToolbar.module.css'
+interface props{
+  editor: Editor | null;
+}
+export default function EditorToolbar({ editor }:props) {
+  
+    const addImage = useCallback(() => {
+      const url = window.prompt('URL');
+      if (url) {
+        editor?.chain().focus().setImage({ src: url }).run();
+      }
+    }, [editor]);
 
-// 마크다운 파서 라이브러리 임포트
-import { marked } from 'marked';
-import TurndownService from 'turndown';
+    const setLink = useCallback(() => {
+      if (!editor) return;
 
-// 필요한 Tiptap 확장들을 불러옵니다.
-import Underline from '@tiptap/extension-underline';
-import Link from '@tiptap/extension-link';
-import Image from '@tiptap/extension-image';
-import Table from '@tiptap/extension-table';
-import TableCell from '@tiptap/extension-table-cell';
-import TableHeader from '@tiptap/extension-table-header';
-import TableRow from '@tiptap/extension-table-row';
-import CharacterCount from '@tiptap/extension-character-count';
-import CodeBlock from '@tiptap/extension-code-block';
-import HardBreak from '@tiptap/extension-hard-break';
-import HorizontalRule from '@tiptap/extension-horizontal-rule';
-import Blockquote from '@tiptap/extension-blockquote';
-import BulletList from '@tiptap/extension-bullet-list';
-import OrderedList from '@tiptap/extension-ordered-list';
-import ListItem from '@tiptap/extension-list-item';
-import styles from './page.module.css';
+      const previousUrl = editor.getAttributes('link').href;
+      const url = window.prompt('URL', previousUrl);
 
-// turndown 서비스 인스턴스 생성
-const turndownService = new TurndownService();
+      if (url === null) {
+        return;
+      }
 
-export default function EditTestPage() {
-  const [markdownContent, setMarkdownContent] = useState<string>();
+      if (url === '') {
+        editor.chain().focus().extendMarkRange('link').unsetLink().run();
+        return;
+      }
 
-  const editor = useEditor({
-    extensions: [
-      StarterKit,
-      Underline,
-      Link.configure({
-        openOnClick: false,
-        autolink: true,
-      }),
-      Image.configure({
-        inline: true,
-        allowBase64: true,
-      }),
-      Table.configure({
-        resizable: true,
-      }),
-      TableCell,
-      TableHeader,
-      TableRow,
-      CharacterCount.configure({
-        limit: 10000,
-      }),
-      CodeBlock,
-      HardBreak,
-      HorizontalRule,
-      Blockquote,
-      BulletList,
-      OrderedList,
-      ListItem,
-    ],
-    // 초기 콘텐츠는 마크다운을 HTML로 변환하여 Tiptap에 전달
-    content: marked.parse(markdownContent || ''), // 초기 상태의 markdownContent 사용
-    onUpdate: ({ editor }) => {
-      // 에디터 내용이 변경될 때마다 HTML을 마크다운으로 변환하여 상태 업데이트
-      const htmlContent = editor.getHTML();
-      const newMarkdownContent = turndownService.turndown(htmlContent);
-      setMarkdownContent(newMarkdownContent); // 직접 상태 업데이트
-    },
-    editorProps: {
-      attributes: {
-        // CSS 모듈 클래스 적용
-        class: styles.tiptapEditorContent,
-      },
-    },
-  });
+      editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
+    }, [editor]);
 
-  const addImage = useCallback(() => {
-    const url = window.prompt('URL');
-    if (url) {
-      editor?.chain().focus().setImage({ src: url }).run();
-    }
-  }, [editor]);
+  if(!editor) return;
 
-  const setLink = useCallback(() => {
-    if (!editor) return;
-
-    const previousUrl = editor.getAttributes('link').href;
-    const url = window.prompt('URL', previousUrl);
-
-    if (url === null) {
-      return;
-    }
-
-    if (url === '') {
-      editor.chain().focus().extendMarkRange('link').unsetLink().run();
-      return;
-    }
-
-    editor.chain().focus().extendMarkRange('link').setLink({ href: url }).run();
-  }, [editor]);
-
-  if (!editor) {
-    return null;
-  }
-
-  return (
-    <div style={{overflow: 'auto', height: '100%'}} className={styles.tiptapEditorWrapper}> {/* page.module.css의 클래스 사용 */}
-      <div style={{overflow: 'auto'}} className={styles.tiptapToolbar}>
+  return(
+    <div style={{overflow: 'auto'}} className={styles.tiptapToolbar}>
         <button
           onClick={() => editor.chain().focus().toggleBold().run()}
           disabled={!editor.can().chain().focus().toggleBold().run()}
@@ -251,17 +178,5 @@ export default function EditTestPage() {
           </>
         )}
       </div>
-      <EditorContent editor={editor} />
-      <div className={styles.characterCount}>
-        {editor.storage.characterCount.characters()} characters, {editor.storage.characterCount.words()} words
-      </div>
-    </div>
-);
+  )
 }
-/**혹시 몰라서 남겨둠 */
-{/* <div style={{ marginTop: '30px', padding: '20px', backgroundColor: '#f5f5f5', borderRadius: '8px' }}>
-  <h2 style={{ fontSize: '1.5em', fontWeight: 'semibold', marginBottom: '10px' }}>생성된 마크다운:</h2>
-  <pre style={{ whiteSpace: 'pre-wrap', fontSize: '0.9em', lineHeight: '1.5', backgroundColor: '#eee', padding: '10px', borderRadius: '4px' }}>
-    {markdownContent}
-  </pre>
-</div> */}

@@ -1,109 +1,242 @@
-.container {
+
+.tiptapEditorWrapper {
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+}
+
+.editorContainer {
+  height: calc(100% - 24px);
+  overflow: auto
+}
+
+/* Tiptap 에디터 콘텐츠 영역 스타일 */
+.tiptapEditorContent {
+  min-height: 300px;
+  padding: 16px;
+  line-height: 1.6;
+  font-family: Arial, sans-serif; /* 기본 폰트 설정 */
+  color: #333;
+}
+
+/* 기본적으로 ProseMirror 콘텐츠에는 스타일이 적용되지 않으므로 수동으로 추가합니다. */
+.tiptapEditorContent h1,
+.tiptapEditorContent h2,
+.tiptapEditorContent h3,
+.tiptapEditorContent h4,
+.tiptapEditorContent h5,
+.tiptapEditorContent h6 {
+  margin-top: 1.5em;
+  margin-bottom: 0.5em;
+  font-weight: bold;
+  line-height: 1.2;
+}
+
+.tiptapEditorContent h1 { font-size: 2.2em; }
+.tiptapEditorContent h2 { font-size: 1.8em; border-bottom: 1px solid #eee; padding-bottom: 0.3em; margin-bottom: 1em;}
+.tiptapEditorContent h3 { font-size: 1.5em; }
+.tiptapEditorContent h4 { font-size: 1.2em; }
+.tiptapEditorContent h5 { font-size: 1.1em; }
+.tiptapEditorContent h6 { font-size: 1em; }
+
+.tiptapEditorContent p {
+  margin-bottom: 1em;
+}
+
+.tiptapEditorContent strong {
+  font-weight: bold;
+}
+
+.tiptapEditorContent em {
+  font-style: italic;
+}
+
+.tiptapEditorContent s {
+  text-decoration: line-through;
+}
+
+.tiptapEditorContent code {
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+  background-color: #f0f0f0;
+  padding: 2px 4px;
+  border-radius: 3px;
+  font-size: 0.9em;
+}
+
+.tiptapEditorContent pre {
+  background: #282c34;
+  color: #abb2bf;
+  padding: 1em;
+  border-radius: 4px;
+  overflow-x: auto;
+  margin-bottom: 1em;
+  font-family: 'SFMono-Regular', Consolas, 'Liberation Mono', Menlo, Courier, monospace;
+}
+
+.tiptapEditorContent pre code {
+  background: none;
+  padding: 0;
+  border-radius: 0;
+  color: inherit;
+}
+
+.tiptapEditorContent a {
+  color: #007bff;
+  text-decoration: underline;
+}
+
+.tiptapEditorContent blockquote {
+  border-left: 4px solid #ccc;
+  margin: 1.5em 0;
+  padding-left: 1em;
+  color: #666;
+  font-style: italic;
+}
+
+.tiptapEditorContent ul,
+.tiptapEditorContent ol {
+  margin-left: 1.5em;
+  margin-bottom: 1em;
+  padding-left: 0;
+}
+
+.tiptapEditorContent ul li {
+  list-style-type: disc;
+}
+
+.tiptapEditorContent ol li {
+  list-style-type: decimal;
+}
+
+.tiptapEditorContent img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+  margin: 1em 0;
+}
+
+.tiptapEditorContent hr {
+  border: none;
+  border-top: 1px solid #ccc;
+  margin: 2em 0;
+}
+
+.tiptapEditorContent table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 1em;
+}
+
+.tiptapEditorContent th,
+.tiptapEditorContent td {
+  border: 1px solid #ddd;
+  padding: 8px;
+  text-align: left;
+}
+
+.tiptapEditorContent th {
+  background-color: #f2f2f2;
+}
+
+/* Tiptap Placeholder */
+.tiptapEditorContent p.is-editor-empty:first-child::before {
+  content: "내용을 입력하세요...";
+  float: left;
+  color: #adb5bd;
+  pointer-events: none;
+  height: 0;
+}
+
+/* Tiptap Selection Styling */
+.tiptapEditorContent .ProseMirror-selectednode {
+  outline: 3px solid #68cef8;
+}
+
+/* Tiptap Image Resizer */
+.tiptapEditorContent .ProseMirror-resizable-media-editor {
   position: relative;
-  flex: 1;
-  height: calc(100vh - 8.5rem);
-  overflow-y: auto;
+  max-width: 100%;
+}
+.tiptapEditorContent .ProseMirror-resizable-media-editor img {
+  display: block;
+  max-width: 100%;
+  height: auto;
 }
 
-.cursorGroup {
+/* For table resizing */
+.ProseMirror table {
+  width: 100%;
+  table-layout: fixed;
+  border-collapse: collapse;
+}
+
+.ProseMirror td, .ProseMirror th {
+  border: 1px solid #ccc;
+  padding: 5px 10px;
+  vertical-align: top;
+}
+
+.ProseMirror .column-resize-handle {
   position: absolute;
-}
-
-.top20 {
-  top: 5rem;
-} /* top-20 */
-.top32 {
-  top: 8rem;
-} /* top-32 */
-.left24 {
-  left: 6rem;
-} /* left-24 */
-.left40 {
-  left: 10rem;
-} /* left-40 */
-
-.cursorBarWrapper {
-  display: flex;
-  align-items: center;
-}
-
-.cursorBar {
-  width: 3px;
-  height: 18px;
-  border-radius: 9999px;
-  animation: pulse 2s infinite;
-}
-
-.cursorPing {
-  position: absolute;
-  left: 0;
+  right: -2px;
+  top: 0;
   bottom: 0;
-  width: 3px;
-  height: 3px;
-  border-radius: 9999px;
-  animation: ping 1.5s infinite;
+  width: 4px;
+  background-color: #68cef8;
+  pointer-events: all;
+  cursor: col-resize;
+  z-index: 100;
 }
 
-.userInfo {
-  margin-left: 0.375rem;
-  display: flex;
-  align-items: center;
-  opacity: 0;
-  transition: opacity 0.2s ease-in-out;
+/* Table controls for selection */
+.ProseMirror .grip-cell {
+  background-color: #ccc;
+  cursor: pointer;
+  padding: 0;
+}
+.ProseMirror .grip-cell:hover {
+  background-color: #aaa;
 }
 
-.group:hover .userInfo {
-  opacity: 1;
+/* For ProseMirror caret and selection styling */
+.ProseMirror {
+  outline: none;
+}
+.ProseMirror .ProseMirror-gapcursor {
+  display: none;
+}
+.ProseMirror .ProseMirror-gapcursor::after {
+  content: "";
+  display: block;
+  position: absolute;
+  top: -2px;
+  width: 20px;
+  border-top: 1px solid black;
+  animation: tiptap-blinking 1s linear infinite;
 }
 
-.avatar {
-  width: 1rem;
-  height: 1rem;
-  border-radius: 9999px;
-  margin-right: 0.25rem;
-}
-
-.usernameTag {
-  padding: 0.125rem 0.375rem;
-  font-size: 0.75rem;
-  color: white;
-  border-radius: 9999px;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
-}
-
-.preview {
-  padding: 1rem;
-  font-family: monospace;
-  font-size: 0.875rem;
-  white-space: pre-wrap;
-}
-
-.light {
-  background-color: #ffffff;
-}
-
-.dark {
-  background-color: #111827; /* bg-gray-900 */
-}
-
-/* Animation keyframes for pulse and ping */
-@keyframes pulse {
-  0%,
-  100% {
+@keyframes tiptap-blinking {
+  0% {
+    opacity: 1;
+  }
+  49% {
     opacity: 1;
   }
   50% {
-    opacity: 0.5;
+    opacity: 0;
+  }
+  99% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
   }
 }
 
-@keyframes ping {
-  0% {
-    transform: scale(1);
-    opacity: 1;
-  }
-  100% {
-    transform: scale(1.5);
-    opacity: 0;
-  }
+.characterCount {
+  padding: 8px;
+  text-align: right;
+  font-size: 12px;
+  color: #777;
+  border-top: 1px solid #eee;
 }
