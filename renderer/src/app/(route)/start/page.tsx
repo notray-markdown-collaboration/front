@@ -5,17 +5,13 @@ import github from "../../../../public/images/githubWhite.svg";
 import google from "../../../../public/images/google.svg";
 import setting from "../../../../public/images/setting.svg";
 import Image from "next/image";
-import { useRouter } from "next/navigation";
 import useAuthStore from "app/_store/useAuthStore";
 import { useEffect } from "react";
 import { SwitchWindow } from "app/_types/switch";
 export default function Start() {
   const { theme, setTheme } = useThemeStore();
-  const router = useRouter();
 
   const {
-    accessToken,
-    refreshToken,
     setAccessToken,
     setRefreshToken,
     loadRefreshToken,
@@ -46,26 +42,29 @@ export default function Start() {
     const result = await window.ipc.invoke("dark-mode:toggle");
     setTheme(result === "dark" ? "dark" : "light");
   };
-
-  const onSubmitGoogleLogin = () => {
+  
+  const developLogin = () => {
     const param: SwitchWindow = {
       width: 1280,
       height: 720,
       uri: "main",
       isFullScreen: true,
     };
+    
     window.ipc.invoke("setStore", {
       key: "refreshToken",
       value:
         "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiY2tzYWxzMTAxNEBnbWFpbC5jb20iLCJuYW1lIjoi7LSI7J207YyM7L2UIiwiaWF0IjoxNzQ0NDUyMDU3LCJleHAiOjE3NDU2NjE2NTd9.DLloSgS1Vpo3_gPr8x_rNxp7usNCMapUIISu2aqDJtY",
     });
     window.ipc.send("switch-window", param);
+  }
 
+  const onSubmitGoogleLogin = () => {
+    developLogin()
     window.ipc.send(
       "loadUrl",
       `${process.env.NEXT_PUBLIC_API_KEY}/api/auth/google`
     );
-    // window.open(`${process.env.NEXT_PUBLIC_API_KEY}/auth/google`);
   };
 
   const onSubmitGithubLogin = () => {
@@ -73,7 +72,6 @@ export default function Start() {
       "loadUrl",
       `${process.env.NEXT_PUBLIC_API_KEY}/api/auth/github`
     );
-    // window.open(`${process.env.NEXT_PUBLIC_API_KEY}/auth/github`);
   };
 
   return (
