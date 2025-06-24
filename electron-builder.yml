@@ -2,7 +2,7 @@ appId: com.example.nextron
 productName: notary
 copyright: Copyright © 2018 Yoshihide Shiono
 directories:
-  output: dist
+  output: release
   buildResources: resources
 files:
   - from: .
