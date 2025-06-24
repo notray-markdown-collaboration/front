@@ -11,7 +11,6 @@ import {
   faEllipsisH,
 } from "@fortawesome/free-solid-svg-icons";
 import { FileNode } from "app/(route)/edit/_types/edit.type";
-import { ReadingFile } from "app/_types/readingFile";
 import { useReadingFileStore } from "app/_store/readingFileStore";
 
 interface SidebarProps {

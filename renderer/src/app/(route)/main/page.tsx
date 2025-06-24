@@ -8,14 +8,10 @@ export default function HomePage() {
 
   useEffect(() => {
     router.prefetch("/edit");
-    router.prefetch("/editTest");
     router.prefetch("/group");
   }, []);
   const edit = () => {
     router.push("/edit");
-  };
-  const test = () => {
-    router.push("/editTest");
   };
   const group = () => {
     router.push("/group");
@@ -53,7 +49,7 @@ export default function HomePage() {
             <button className={styles.active} onClick={edit}>
               전체
             </button>
-            <button className={styles.inactive} onClick={test}>
+            <button className={styles.inactive} >
               개인
             </button>
             <button className={styles.inactive}>그룹</button>

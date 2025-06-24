@@ -3,8 +3,9 @@ import { Editor } from '@tiptap/react'
 import styles from './EditorToolbar.module.css'
 interface props{
   editor: Editor | null;
+  isEditable: boolean
 }
-export default function EditorToolbar({ editor }:props) {
+export default function EditorToolbar({ editor, isEditable }:props) {
   
     const addImage = useCallback(() => {
       const url = window.prompt('URL');
