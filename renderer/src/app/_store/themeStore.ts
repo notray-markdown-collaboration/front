@@ -23,7 +23,7 @@ const useThemeStore = create<ThemeStore>((set, get) => ({
 
   toggleTheme: async () => {
     try {
-      const result = await window.electronAPI.getCurrentTheme();
+      const result = await window.electronAPI.toggleTheme();
       set({ theme: result === "dark" ? "dark" : "light" });
     } catch (error) {
       console.error("Failed to toggle theme via Electron:", error);

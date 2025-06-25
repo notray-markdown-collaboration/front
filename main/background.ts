@@ -45,7 +45,7 @@ async function onReady() {
   // 시작 페이지 결정
   const refreshToken = storeService.get<string>('refreshToken');
   const initialPage = refreshToken ? 'main' : 'start';
-
+  console.log(refreshToken)
   // 메인 윈도우 생성
   const mainWindow = createWindow('main', {
     width: refreshToken ? 1280 : 700,
