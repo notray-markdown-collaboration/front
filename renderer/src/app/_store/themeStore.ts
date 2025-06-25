@@ -14,7 +14,7 @@ const useThemeStore = create<ThemeStore>((set, get) => ({
 
   initializeTheme: async () => {
     try {
-      const initialTheme = await window.ipc.invoke("dark-mode:current");
+      const initialTheme = await window.electronAPI.getCurrentTheme();
       set({ theme: initialTheme === "dark" ? "dark" : "light" });
     } catch (error) {
       console.error("Failed to initialize theme from Electron:", error);
@@ -23,7 +23,7 @@ const useThemeStore = create<ThemeStore>((set, get) => ({
 
   toggleTheme: async () => {
     try {
-      const result = await window.ipc.invoke("dark-mode:toggle");
+      const result = await window.electronAPI.getCurrentTheme();
       set({ theme: result === "dark" ? "dark" : "light" });
     } catch (error) {
       console.error("Failed to toggle theme via Electron:", error);

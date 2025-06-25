@@ -10,7 +10,7 @@ import {
   faSun,
   faCog,
 } from "@fortawesome/free-solid-svg-icons";
-import { useSettingsStore } from "app/_store/settingStore";
+import { useSettingsStore } from "@/app/_store/settingStore";
 import SettingsModal from "../../SettingsModal";
 
 interface HeaderProps {

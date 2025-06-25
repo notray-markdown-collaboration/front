@@ -1,5 +1,5 @@
 "use client"; 
-import useThemeStore from 'app/_store/themeStore';
+import useThemeStore from '@/app/_store/themeStore';
 import { useEffect } from 'react';
 
 interface ThemeClientProviderProps {
@@ -13,13 +13,14 @@ export default function ThemeClientProvider({ children }: ThemeClientProviderPro
     initializeTheme();
 
     const unsubscribe = () => { /* no-op for now */ }; // Clean up function placeholder
-    if (window.ipc && typeof window.ipc.onDarkModeChanged === 'function') {
-      window.ipc.onDarkModeChanged((sysTheme: string) => {
-        setThemeFromSystem(sysTheme === "dark" ? "dark" : "light");
-      });
-    } else {
-      console.warn("window.ipc or window.ipc.onDarkModeChanged is not available. System theme changes may not be detected.");
-    }
+    // TODO
+    // if (window.ipc && typeof window.ipc.onDarkModeChanged === 'function') {
+    //   window.ipc.onDarkModeChanged((sysTheme: string) => {
+    //     setThemeFromSystem(sysTheme === "dark" ? "dark" : "light");
+    //   });
+    // } else {
+    //   console.warn("window.ipc or window.ipc.onDarkModeChanged is not available. System theme changes may not be detected.");
+    // }
 
     return () => {
       unsubscribe(); 

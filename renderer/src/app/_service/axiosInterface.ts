@@ -1,5 +1,5 @@
 import axios from "axios";
-import useAuthStore from "app/_store/useAuthStore";
+import useAuthStore from "@/app/_store/useAuthStore";
 const { refreshToken, setAccessToken } = useAuthStore();
 
 axios.interceptors.response.use(

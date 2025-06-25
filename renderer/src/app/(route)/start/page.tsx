@@ -1,13 +1,14 @@
 "use client";
-import useThemeStore from "app/_store/themeStore";
+import useThemeStore from "@/app/_store/themeStore";
 import styles from "./page.module.css";
 import github from "../../../../public/images/githubWhite.svg";
 import google from "../../../../public/images/google.svg";
 import setting from "../../../../public/images/setting.svg";
 import Image from "next/image";
-import useAuthStore from "app/_store/useAuthStore";
+import useAuthStore from "@/app/_store/useAuthStore";
 import { useEffect } from "react";
-import { SwitchWindow } from "app/_types/switch";
+import { SwitchWindow } from "@/app/_types/switch";
+import { STORE_KEYS } from "@shared/constants/storageKeys";
 export default function Start() {
   const { theme, toggleTheme } = useThemeStore();
 
@@ -18,23 +19,24 @@ export default function Start() {
   } = useAuthStore();
   useEffect(() => {
     loadRefreshToken();
-    const off = window.ipc.on("oauth-token", (payload: any) => {
-      const { accessToken, refreshToken } = payload;
+    // TODO
+    // const off = window.ipc.on("oauth-token", (payload: any) => {
+    //   const { accessToken, refreshToken } = payload;
 
-      console.log("✅ 토큰 수신:", accessToken, refreshToken);
-      setAccessToken(accessToken);
-      setRefreshToken(refreshToken);
-      const param: SwitchWindow = {
-        width: 1280,
-        height: 720,
-        uri: "main",
-        isFullScreen: true,
-      };
-      window.ipc.send("switch-window", param);
-    });
+    //   console.log("✅ 토큰 수신:", accessToken, refreshToken);
+    //   setAccessToken(accessToken);
+    //   setRefreshToken(refreshToken);
+    //   const param: SwitchWindow = {
+    //     width: 1280,
+    //     height: 720,
+    //     uri: "main",
+    //     isFullScreen: true,
+    //   };
+    //   window.ipc.send("switch-window", param);
+    // });
 
     return () => {
-      off(); // removeListener
+      // off(); // removeListener
     };
   }, []);
 
@@ -48,27 +50,17 @@ export default function Start() {
       isFullScreen: true,
     };
     
-    window.ipc.invoke("setStore", {
-      key: "refreshToken",
-      value:
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiY2tzYWxzMTAxNEBnbWFpbC5jb20iLCJuYW1lIjoi7LSI7J207YyM7L2UIiwiaWF0IjoxNzQ0NDUyMDU3LCJleHAiOjE3NDU2NjE2NTd9.DLloSgS1Vpo3_gPr8x_rNxp7usNCMapUIISu2aqDJtY",
-    });
-    window.ipc.send("switch-window", param);
+    window.electronAPI.setStore(STORE_KEYS.REFRESH_TOKEN, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiY2tzYWxzMTAxNEBnbWFpbC5jb20iLCJuYW1lIjoi7LSI7J207YyM7L2UIiwiaWF0IjoxNzQ0NDUyMDU3LCJleHAiOjE3NDU2NjE2NTd9.DLloSgS1Vpo3_gPr8x_rNxp7usNCMapUIISu2aqDJtY');
+    window.electronAPI.switchWindow(param);
   }
 
   const onSubmitGoogleLogin = () => {
     developLogin()
-    window.ipc.send(
-      "loadUrl",
-      `${process.env.NEXT_PUBLIC_API_KEY}/api/auth/google`
-    );
+    window.electronAPI.loadUrl(`${process.env.NEXT_PUBLIC_API_KEY}/api/auth/google`)
   };
 
   const onSubmitGithubLogin = () => {
-    window.ipc.send(
-      "loadUrl",
-      `${process.env.NEXT_PUBLIC_API_KEY}/api/auth/github`
-    );
+    window.electronAPI.loadUrl(`${process.env.NEXT_PUBLIC_API_KEY}/api/auth/github`)
   };
 
   return (

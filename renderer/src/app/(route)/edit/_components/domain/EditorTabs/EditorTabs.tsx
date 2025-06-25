@@ -6,8 +6,8 @@ import {
   faFileCode,
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
-import { useReadingFileStore } from "app/_store/readingFileStore";
-import { getFilename } from "app/(route)/edit/_utils/GetFileName";
+import { useReadingFileStore } from "@/app/_store/readingFileStore";
+import { getFilename } from "@/app/(route)/edit/_utils/GetFileName";
 
 interface EditorTabsProps {
   theme: "light" | "dark";
@@ -27,9 +27,10 @@ export default function EditorTabs({
     setOpenFiles(newOpenFiles);
   };
  const handleFileClick = async (filePath: string) => {
-    const result = await window.ipc.invoke('read-file', filePath);
+    const result = await window.electronAPI.readFile(filePath);
+ 
     if (result.success) {
-      setSelectedFile({ path: filePath, content: result.content });
+      setSelectedFile({ path: filePath, content: result.content! });
     } else {
       alert(`파일을 읽는 중 오류 발생: ${result.error}`);
     }

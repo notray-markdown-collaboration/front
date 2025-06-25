@@ -1,4 +1,4 @@
-import { ReadingFile } from "app/_types/readingFile";
+import { ReadingFile } from "@/app/_types/readingFile";
 import { create } from "zustand";
 
 interface SelectedFile {

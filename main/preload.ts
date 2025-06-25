@@ -1,27 +1,32 @@
-import { contextBridge, ipcRenderer, IpcRendererEvent } from "electron";
+import { contextBridge, ipcRenderer, IpcRendererEvent } from 'electron';
+import type { FileNode, SwitchWindowParams } from './types';
 
-const handler = {
-  send(channel: string, value?: unknown) {
-    ipcRenderer.send(channel, value);
-  },
-  on(channel: string, callback: (...args: unknown[]) => void) {
-    const subscription = (_event: IpcRendererEvent, ...args: unknown[]) =>
-      callback(...args);
-    ipcRenderer.on(channel, subscription);
+export const api = {
+  // Store API
+  getStore: <T>(key: string): Promise<T> => ipcRenderer.invoke('getStore', key),
+  setStore: (key: string, value: unknown): Promise<void> => ipcRenderer.invoke('setStore', { key, value }),
+  deleteStore: (key: string): Promise<void> => ipcRenderer.invoke('deleteStore', key),
 
-    return () => {
-      ipcRenderer.removeListener(channel, subscription);
-    };
-  },
-  invoke(channel: string, ...args: unknown[]) {
-    return ipcRenderer.invoke(channel, ...args);
-  },
-  onDarkModeChanged: (callback: any) => {
-    ipcRenderer.on("dark-mode-changed", (event, theme) => {
-      callback(theme);
-    });
+  // FileSystem API
+  openFolderDialog: (): Promise<FileNode | null> => ipcRenderer.invoke('open-folder-dialog'),
+  readFile: (filePath: string): Promise<{ success: boolean; content?: string; error?: string }> => ipcRenderer.invoke('read-file', filePath),
+  loadUrl: (url: string): void => ipcRenderer.send('load-url', url),
+
+  // Theme API
+  toggleTheme: (): Promise<'light' | 'dark'> => ipcRenderer.invoke('dark-mode:toggle'),
+  getCurrentTheme: (): Promise<'light' | 'dark'> => ipcRenderer.invoke('dark-mode:current'),
+
+  // Window API
+  switchWindow: (params: SwitchWindowParams): void => ipcRenderer.send('switch-window', params),
+
+  // Listener API (Main -> Renderer)
+  onThemeUpdated: (callback: (theme: 'light' | 'dark') => void) => {
+    const subscription = (_event: IpcRendererEvent, theme: 'light' | 'dark') => callback(theme);
+    ipcRenderer.on('theme-updated', subscription);
+    return () => ipcRenderer.removeListener('theme-updated', subscription);
   },
 };
 
-contextBridge.exposeInMainWorld("ipc", handler);
-export type IpcHandler = typeof handler;
+contextBridge.exposeInMainWorld('electronAPI', api);
+
+export type IpcHandler = typeof api;

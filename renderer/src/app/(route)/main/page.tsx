@@ -1,8 +1,10 @@
 "use client";
 import { useEffect } from "react";
 import styles from "./page.module.css";
-import { SwitchWindow } from "app/_types/switch";
+import { SwitchWindow } from "@/app/_types/switch";
 import { useRouter } from "next/navigation";
+import { STORE_KEYS } from '@shared/constants/storageKeys'
+
 export default function HomePage() {
   const router = useRouter();
 
@@ -23,8 +25,8 @@ export default function HomePage() {
       uri: "start",
       isFixed: true,
     };
-    window.ipc.invoke("deleteStore", "refreshToken");
-    window.ipc.send("switch-window", param);
+    window.electronAPI.deleteStore(STORE_KEYS.REFRESH_TOKEN);
+    window.electronAPI.switchWindow(param);
   };
 
   return (

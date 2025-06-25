@@ -1,7 +1,7 @@
 {
   "extends": "../tsconfig.json",  // 기본 설정을 상속
   "compilerOptions": {
-    "baseUrl": "./src",
+    "baseUrl": "../",
     "moduleResolution": "bundler",
     "plugins": [
       {
@@ -9,7 +9,10 @@
       }
     ],
     "paths": {
-      "@/*": ["./src/*"]
+      "@/*": ["renderer/src/*"],
+      "@main/*": ["main/*"],
+      "@renderer/*": ["renderer/*"],
+      "@shared/*": ["shared/*"]
     }
   },
   "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", ".next/types/**/*.ts"],

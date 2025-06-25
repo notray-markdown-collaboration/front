@@ -25,7 +25,7 @@ import OrderedList from '@tiptap/extension-ordered-list';
 import ListItem from '@tiptap/extension-list-item';
 import styles from './MarkdownEditor.module.css';
 import EditorToolbar from '../EditorToolbar/EditorToolbar';
-import { useReadingFileStore } from 'app/_store/readingFileStore';
+import { useReadingFileStore } from '@/app/_store/readingFileStore';
 
 // turndown 서비스 인스턴스 생성
 const turndownService = new TurndownService();

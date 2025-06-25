@@ -10,8 +10,8 @@ import {
   faFolderPlus,
   faEllipsisH,
 } from "@fortawesome/free-solid-svg-icons";
-import { FileNode } from "app/(route)/edit/_types/edit.type";
-import { useReadingFileStore } from "app/_store/readingFileStore";
+import { FileNode } from "@/app/(route)/edit/_types/edit.type";
+import { useReadingFileStore } from "@/app/_store/readingFileStore";
 
 interface SidebarProps {
   theme: "light" | "dark";
@@ -24,7 +24,7 @@ const Sidebar: React.FC<SidebarProps> = ({
   const [openFolders, setOpenFolders] = useState<Set<string>>(new Set());
   const { selectedFile, setSelectedFile } = useReadingFileStore();
   const handleOpenFolder = async () => {
-    const result = await window.ipc.invoke('open-folder-recursive');
+    const result = await window.electronAPI.openFolderDialog();
     
     if (result) setTree(result);
     setSelectedFile(null);
@@ -39,9 +39,10 @@ const Sidebar: React.FC<SidebarProps> = ({
   };
 
   const handleFileClick = async (filePath: string) => {
-    const result = await window.ipc.invoke('read-file', filePath);
+    const result = await window.electronAPI.readFile(filePath);
+
     if (result.success) {
-      setSelectedFile({ path: filePath, content: result.content });
+      setSelectedFile({ path: filePath, content: result.content! });
     } else {
       alert(`파일을 읽는 중 오류 발생: ${result.error}`);
     }

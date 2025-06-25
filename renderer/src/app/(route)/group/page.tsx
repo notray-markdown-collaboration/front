@@ -7,6 +7,7 @@ import MainContent from "./_components/layout/MainContent/MainContent";
 import ToastNotification from "./_components/ToastNotification";
 import { FileItem } from "./_types";
 import styles from "./page.module.css";
+
 const folders = [
   { id: "문서", name: "문서", files: 5 },
   { id: "이미지", name: "이미지", files: 12 },
