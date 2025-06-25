@@ -1,4 +1,4 @@
-import { app, BrowserWindow, Menu } from 'electron';
+import { app, BrowserWindow, globalShortcut, Menu } from 'electron';
 import serve from 'electron-serve';
 import path from 'path';
 import { createWindow } from './helpers/createWindow';
@@ -7,6 +7,7 @@ import { storeService } from './services/storeService';
 import { themeService } from './services/themeService';
 import { deeplinkService } from './services/deeplinkService';
 import { windowService } from './services/windowService';
+import electronLocalshortcut from "electron-localshortcut";
 
 const isProd: boolean = process.env.NODE_ENV === 'production';
 
@@ -82,7 +83,9 @@ async function onReady() {
 
   // 창에 종속적인 서비스 및 핸들러 초기화
   themeService.sendCurrentTheme(mainWindow);
-  mainWindow.webContents.send('register-dev-tools-toggle', mainWindow);
+  electronLocalshortcut.register('F12', () => {
+   mainWindow.webContents.toggleDevTools();
+  });
 
   // 시작 시 딥링크 처리
   if (process.platform === 'win32') {
