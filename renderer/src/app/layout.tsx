@@ -19,8 +19,9 @@ export default function RootLayout({
         />
       </Head>
       <body>
-        <BodyThemeProvider />
-        {children}
+        <BodyThemeProvider > 
+          {children}
+        </BodyThemeProvider>
       </body>
     </html>
   );

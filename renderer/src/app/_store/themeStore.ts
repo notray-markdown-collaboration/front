@@ -1,24 +1,38 @@
-// renderer/src/store/themeStore.ts
-import { create } from 'zustand'
+import { create } from 'zustand';
 
-type Theme = 'light' | 'dark'
+type Theme = 'light' | 'dark';
 
 interface ThemeStore {
-  theme: Theme
-  setTheme: (theme: Theme) => void
-  toggleTheme: () => void
+  theme: Theme;
+  initializeTheme: () => Promise<void>;
+  toggleTheme: () => Promise<void>;
+  setThemeFromSystem: (theme: Theme) => void;
 }
 
-const useThemeStore = create<ThemeStore>((set) => ({
-  theme: 'light',
-  setTheme: (theme) => {
-    set({ theme })
-  },
-  toggleTheme: () =>
-    set((state) => {
-      const next = state.theme === 'light' ? 'dark' : 'light'
-      return { theme: next }
-    }),
-}))
+const useThemeStore = create<ThemeStore>((set, get) => ({
+  theme: 'light', // 초기 기본값 설정
 
-export default useThemeStore
+  initializeTheme: async () => {
+    try {
+      const initialTheme = await window.ipc.invoke("dark-mode:current");
+      set({ theme: initialTheme === "dark" ? "dark" : "light" });
+    } catch (error) {
+      console.error("Failed to initialize theme from Electron:", error);
+    }
+  },
+
+  toggleTheme: async () => {
+    try {
+      const result = await window.ipc.invoke("dark-mode:toggle");
+      set({ theme: result === "dark" ? "dark" : "light" });
+    } catch (error) {
+      console.error("Failed to toggle theme via Electron:", error);
+    }
+  },
+
+  setThemeFromSystem: (theme) => {
+    set({ theme });
+  },
+}));
+
+export default useThemeStore;

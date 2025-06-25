@@ -9,7 +9,7 @@ import useAuthStore from "app/_store/useAuthStore";
 import { useEffect } from "react";
 import { SwitchWindow } from "app/_types/switch";
 export default function Start() {
-  const { theme, setTheme } = useThemeStore();
+  const { theme, toggleTheme } = useThemeStore();
 
   const {
     setAccessToken,
@@ -38,10 +38,7 @@ export default function Start() {
     };
   }, []);
 
-  const handleToggle = async () => {
-    const result = await window.ipc.invoke("dark-mode:toggle");
-    setTheme(result === "dark" ? "dark" : "light");
-  };
+
   
   const developLogin = () => {
     const param: SwitchWindow = {
@@ -106,7 +103,7 @@ export default function Start() {
             </button>
           </div>
         </div>
-        <button className={styles.settingButton} onClick={handleToggle}>
+        <button className={styles.settingButton} onClick={toggleTheme}>
           <Image src={setting} alt="setting" width={30} height={30} />
         </button>
       </div>
