@@ -1,10 +1,10 @@
 "use client";
-import useThemeStore from "@/app/_store/themeStore";
+import useThemeStore from "@/_store/themeStore";
 import styles from "./page.module.css";
 import Image from "next/image";
-import useAuthStore from "@/app/_store/useAuthStore";
+import useAuthStore from "@/_store/useAuthStore";
 import { useEffect } from "react";
-import { SwitchWindow } from "@/app/_types/switch";
+import { SwitchWindow } from "@/_types/switch";
 import { STORE_KEYS } from "@shared/constants/storageKeys";
 
 export default function Start() {

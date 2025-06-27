@@ -1,6 +1,6 @@
 import React from "react";
 import styles from "./SettingsModal.module.css"; // CSS Modules 스타일 연결
-import { useSettingsStore } from "@/app/_store/settingStore";
+import { useSettingsStore } from "@/_store/settingStore";
 
 interface SettingsModalProps {
   isOpen: boolean;

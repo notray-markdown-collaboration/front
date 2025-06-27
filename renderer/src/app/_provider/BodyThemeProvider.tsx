@@ -1,5 +1,5 @@
 "use client"; 
-import useThemeStore from '@/app/_store/themeStore';
+import useThemeStore from '@/_store/themeStore';
 import { useEffect } from 'react';
 
 interface ThemeClientProviderProps {

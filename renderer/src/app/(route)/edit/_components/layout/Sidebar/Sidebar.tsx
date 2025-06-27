@@ -10,8 +10,8 @@ import {
   faFolderPlus,
   faEllipsisH,
 } from "@fortawesome/free-solid-svg-icons";
-import { FileNode } from "@/app/(route)/edit/_types/edit.type";
-import { useReadingFileStore } from "@/app/_store/readingFileStore";
+import { FileNode } from "@/(route)/edit/_types/edit.type";
+import { useReadingFileStore } from "@/_store/readingFileStore";
 
 interface SidebarProps {
   theme: "light" | "dark";

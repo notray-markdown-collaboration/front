@@ -1,7 +1,7 @@
 "use client";
 import { useEffect } from "react";
 import styles from "./page.module.css";
-import { SwitchWindow } from "@/app/_types/switch";
+import { SwitchWindow } from "@/_types/switch";
 import { useRouter } from "next/navigation";
 import { STORE_KEYS } from '@shared/constants/storageKeys'
 

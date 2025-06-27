@@ -6,8 +6,8 @@ import {
   faFileCode,
   faTimes,
 } from "@fortawesome/free-solid-svg-icons";
-import { useReadingFileStore } from "@/app/_store/readingFileStore";
-import { getFilename } from "@/app/(route)/edit/_utils/GetFileName";
+import { useReadingFileStore } from "@/_store/readingFileStore";
+import { getFilename } from "@/(route)/edit/_utils/GetFileName";
 
 interface EditorTabsProps {
   theme: "light" | "dark";
