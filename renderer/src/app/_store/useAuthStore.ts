@@ -1,7 +1,7 @@
 // src/_store/useAuthStore.ts
 import { create } from "zustand";
 import { persist } from "zustand/middleware";
-import { STORE_KEYS } from "@shared/constants/storageKeys";
+import { STORAGE_KEYS } from "@shared/constants/storageKeys";
 
 interface AuthState {
   accessToken: string | null;
@@ -29,7 +29,7 @@ const useAuthStore = create<AuthState>()(
       refreshToken: null,
       loadRefreshToken: async () => {
         try {
-          const token = await window.electronAPI.getStore<string>(STORE_KEYS.REFRESH_TOKEN)
+          const token = await window.electronAPI.getStore<string>(STORAGE_KEYS.REFRESH_TOKEN)
           set({ refreshToken: token ?? null });
         } catch (err) {
           console.error("refreshToken 불러오기 실패:", err);
@@ -37,7 +37,7 @@ const useAuthStore = create<AuthState>()(
       },
       setRefreshToken: async (token: string) => {
         try {
-          await window.electronAPI.setStore(STORE_KEYS.REFRESH_TOKEN, token);
+          await window.electronAPI.setStore(STORAGE_KEYS.REFRESH_TOKEN, token);
           set({ refreshToken: token });
         } catch (err) {
           console.error("refreshToken 저장 실패:", err);
@@ -45,7 +45,7 @@ const useAuthStore = create<AuthState>()(
       },
       clearRefreshToken: async () => {
         try {
-          await window.electronAPI.setStore(STORE_KEYS.REFRESH_TOKEN, null);
+          await window.electronAPI.setStore(STORAGE_KEYS.REFRESH_TOKEN, null);
           set({ refreshToken: null });
         } catch (err) {
           console.error("refreshToken 삭제 실패:", err);

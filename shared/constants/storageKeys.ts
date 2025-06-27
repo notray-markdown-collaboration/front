@@ -1,3 +1,4 @@
-export const STORE_KEYS = {
+export const STORAGE_KEYS = {
+  ACCESS_TOKEN:  'ACCESS_TOKEN',
   REFRESH_TOKEN: 'REFRESH_TOKEN'
 } as const;

@@ -3,7 +3,7 @@ import { useEffect } from "react";
 import styles from "./page.module.css";
 import { SwitchWindow } from "@/_types/switch";
 import { useRouter } from "next/navigation";
-import { STORE_KEYS } from '@shared/constants/storageKeys'
+import { STORAGE_KEYS } from '@shared/constants/storageKeys'
 
 export default function HomePage() {
   const router = useRouter();
@@ -25,7 +25,7 @@ export default function HomePage() {
       uri: "start",
       isFixed: true,
     };
-    window.electronAPI.deleteStore(STORE_KEYS.REFRESH_TOKEN);
+    window.electronAPI.deleteStore(STORAGE_KEYS.REFRESH_TOKEN);
     window.electronAPI.switchWindow(param);
   };
 

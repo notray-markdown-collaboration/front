@@ -5,7 +5,7 @@ import Image from "next/image";
 import useAuthStore from "@/_store/useAuthStore";
 import { useEffect } from "react";
 import { SwitchWindow } from "@/_types/switch";
-import { STORE_KEYS } from "@shared/constants/storageKeys";
+import { STORAGE_KEYS } from "@shared/constants/storageKeys";
 
 export default function Start() {
   const { theme, toggleTheme } = useThemeStore();
@@ -44,7 +44,7 @@ export default function Start() {
       isFullScreen: true,
     };
     
-    window.electronAPI.setStore(STORE_KEYS.REFRESH_TOKEN, process.env.NEXT_PUBLIC_PERMANENT_TOKEN);
+    window.electronAPI.setStore(STORAGE_KEYS.REFRESH_TOKEN, process.env.NEXT_PUBLIC_PERMANENT_TOKEN);
     window.electronAPI.switchWindow(param);
   }
 
