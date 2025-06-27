@@ -1,9 +1,6 @@
 "use client";
 import useThemeStore from "@/app/_store/themeStore";
 import styles from "./page.module.css";
-import github from "../../../../public/images/githubWhite.svg";
-import google from "../../../../public/images/google.svg";
-import setting from "../../../../public/images/setting.svg";
 import Image from "next/image";
 import useAuthStore from "@/app/_store/useAuthStore";
 import { useEffect } from "react";
@@ -13,8 +10,6 @@ export default function Start() {
   const { theme, toggleTheme } = useThemeStore();
 
   const {
-    setAccessToken,
-    setRefreshToken,
     loadRefreshToken,
   } = useAuthStore();
   useEffect(() => {
@@ -39,8 +34,6 @@ export default function Start() {
       // off(); // removeListener
     };
   }, []);
-
-
   
   const developLogin = () => {
     const param: SwitchWindow = {
@@ -85,18 +78,18 @@ export default function Start() {
               className={styles.githubButton}
               onClick={onSubmitGithubLogin}
             >
-              <Image src={github} alt="github" width={30} height={30} />
+              <Image src={'/images/githubWhite.svg'} alt="github" width={30} height={30} />
             </button>
             <button
               className={styles.googleButton}
               onClick={onSubmitGoogleLogin}
             >
-              <Image src={google} alt="google" width={30} height={30} />
+              <Image src={'/images/google.svg'} alt="google" width={30} height={30} />
             </button>
           </div>
         </div>
         <button className={styles.settingButton} onClick={toggleTheme}>
-          <Image src={setting} alt="setting" width={30} height={30} />
+          <Image src={'/images/setting.svg'} alt="setting" width={30} height={30} />
         </button>
       </div>
     </div>
