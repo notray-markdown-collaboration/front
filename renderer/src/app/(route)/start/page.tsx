@@ -6,6 +6,7 @@ import useAuthStore from "@/app/_store/useAuthStore";
 import { useEffect } from "react";
 import { SwitchWindow } from "@/app/_types/switch";
 import { STORE_KEYS } from "@shared/constants/storageKeys";
+
 export default function Start() {
   const { theme, toggleTheme } = useThemeStore();
 
@@ -43,17 +44,18 @@ export default function Start() {
       isFullScreen: true,
     };
     
-    window.electronAPI.setStore(STORE_KEYS.REFRESH_TOKEN, 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsImVtYWlsIjoiY2tzYWxzMTAxNEBnbWFpbC5jb20iLCJuYW1lIjoi7LSI7J207YyM7L2UIiwiaWF0IjoxNzQ0NDUyMDU3LCJleHAiOjE3NDU2NjE2NTd9.DLloSgS1Vpo3_gPr8x_rNxp7usNCMapUIISu2aqDJtY');
+    window.electronAPI.setStore(STORE_KEYS.REFRESH_TOKEN, process.env.NEXT_PUBLIC_PERMANENT_TOKEN);
     window.electronAPI.switchWindow(param);
   }
 
   const onSubmitGoogleLogin = () => {
-    developLogin()
-    window.electronAPI.loadUrl(`${process.env.NEXT_PUBLIC_API_KEY}/api/auth/google`)
+    developLogin();
+    window.electronAPI.loadUrl(`${process.env.NEXT_PUBLIC_API_KEY}/api/auth/google`);
   };
 
   const onSubmitGithubLogin = () => {
-    window.electronAPI.loadUrl(`${process.env.NEXT_PUBLIC_API_KEY}/api/auth/github`)
+    developLogin();
+    window.electronAPI.loadUrl(`${process.env.NEXT_PUBLIC_API_KEY}/api/auth/github`);
   };
 
   return (
