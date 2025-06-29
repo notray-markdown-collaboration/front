@@ -22,6 +22,7 @@ export function registerFileSystemHandlers() {
   });
 
   ipcMain.on('load-url', (_event, url: string) => {
+    console.log(`Loading URL123213321123: ${url}`);
     shell.openExternal(url);
   });
 }

@@ -1,5 +1,3 @@
-// src/apis/core/apiError.ts (변경 없음)
-
 export interface ErrorResponse {
   message: string;
   code: string;

@@ -1,30 +1,52 @@
+import useAuthStore from "@/_store/useAuthStore";
 import { STORAGE_KEYS } from "@shared/constants/storageKeys";
 
 // 토큰 갱신 요청이 중복되는 것을 방지하기 위한 변수
 let refreshRequest: Promise<string> | null = null;
 
 export const tokenManager = {
-  get: async (): Promise<string | null> => {
-    // window.electronAPI가 존재할 때만 실행
-    return window.electronAPI?.getStore<string>('') || null;
+  getRefreshToken: async (): Promise<string | null> => {
+    return window.electronAPI?.getStore<string>(STORAGE_KEYS.REFRESH_TOKEN) || null;
   },
 
-  set: async (token: string | null): Promise<void> => {
-    if (token) {
-      await window.electronAPI?.setStore(STORAGE_KEYS.ACCESS_TOKEN, token);
-    } else {
-      await window.electronAPI?.deleteStore(STORAGE_KEYS.ACCESS_TOKEN);
-    }
+  setRefreshToken: async (token: string): Promise<void> => {
+    await window.electronAPI?.setStore(STORAGE_KEYS.REFRESH_TOKEN, token);
+  },
+
+  deleteRefreshToken: async (): Promise<void> => {
+    await window.electronAPI?.deleteStore(STORAGE_KEYS.REFRESH_TOKEN);
   },
 
   refresh: async (): Promise<string> => {
+    if (refreshRequest) {
+      return refreshRequest;
+    }
+
     try {
-      // 실제 토큰 갱신 API 엔드포인트
+      // 1. 저장된 Refresh Token 조회
+      const refreshToken = await tokenManager.getRefreshToken();
+
+      if (!refreshToken) {
+        throw new Error('Refresh Token이 존재하지 않습니다.');
+      }
+
       const REFRESH_API_URL = `${process.env.NEXT_PUBLIC_API_URL}/auth/refresh`;
       
+      // 2. 토큰 갱신 API 호출
       console.log('토큰 갱신을 시도합니다...');
-      refreshRequest = fetch(REFRESH_API_URL, { method: 'POST' })
-        .then(res => res.json())
+      refreshRequest = fetch(REFRESH_API_URL, {
+        method: 'POST', // POST 메소드 명시
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ refreshToken }), 
+      })
+        .then(res => {
+          if (!res.ok) {
+            throw new Error('토큰 갱신 API 요청 실패');
+          }
+          return res.json();
+        })
         .then(data => data.accessToken);
 
       const newAccessToken = await refreshRequest;
@@ -33,17 +55,17 @@ export const tokenManager = {
         throw new Error('새로운 토큰 발급에 실패했습니다.');
       }
 
-      await tokenManager.set(newAccessToken);
+      // 3. 새로운 Access Token 저장 및 반환
+      useAuthStore.getState().setAccessToken(newAccessToken);
       console.log('토큰 갱신에 성공했습니다.');
       return newAccessToken;
 
     } catch (error) {
-      // 갱신 실패 시 기존 토큰을 삭제하고 로그인 페이지로 유도할 수 있습니다.
-      await tokenManager.set(null);
+      // 갱신 실패 시 기존 토큰 삭제
+      await tokenManager.deleteRefreshToken();
       console.error('토큰 갱신에 실패했습니다:', error);
       throw error;
     } finally {
-      // 완료 후에는 항상 갱신 요청 상태를 초기화합니다.
       refreshRequest = null;
     }
   },

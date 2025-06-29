@@ -2,22 +2,20 @@ import axios, { type InternalAxiosRequestConfig } from 'axios';
 import { tokenManager } from './tokenManager';
 import { ApiError } from './apiError';
 import type { ErrorResponse } from '@/_types/api';
+import useAuthStore from '@/_store/useAuthStore';
 
 const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL;
 
-/**
- * CSR 환경에서 사용될 중앙 Axios 인스턴스
- */
 const axiosInstance = axios.create({
   baseURL: API_BASE_URL,
   timeout: 10000,
   headers: { 'Content-Type': 'application/json' },
 });
 
-// 요청 인터셉터: 모든 요청에 인증 토큰을 자동으로 추가합니다.
+// 요청 인터셉터: 모든 요청에 accessToken 자동 추가
 axiosInstance.interceptors.request.use(
   async (config) => {
-    const token = await tokenManager.get();
+    const token = useAuthStore.getState().accessToken;
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -28,10 +26,11 @@ axiosInstance.interceptors.request.use(
   }
 );
 
-// 응답 인터셉터: 모든 API 에러를 중앙에서 처리합니다.
+// 응답 인터셉터: 모든 API 에러 일관화.
 axiosInstance.interceptors.response.use(
   (response) => response.data, // 성공 시 response.data만 반환
   async (error) => {
+    console.log(error)
     const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
 
     // 401 에러가 발생했고, 아직 재시도하지 않았다면 토큰 갱신을 시도합니다.

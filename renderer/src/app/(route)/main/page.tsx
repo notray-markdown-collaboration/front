@@ -4,20 +4,20 @@ import styles from "./page.module.css";
 import { SwitchWindow } from "@/_types/switch";
 import { useRouter } from "next/navigation";
 import { STORAGE_KEYS } from '@shared/constants/storageKeys'
+import { useGroups } from "@/_hooks/queries/group";
 
 export default function HomePage() {
   const router = useRouter();
+
+  const { data: groups, isLoading, isError, error } = useGroups();
 
   useEffect(() => {
     router.prefetch("/edit");
     router.prefetch("/group");
   }, []);
-  const edit = () => {
-    router.push("/edit");
-  };
-  const group = () => {
-    router.push("/group");
-  };
+  const edit = () => router.push("/edit");
+  const group = (groupId: string) => router.push("/group");
+
   const onClickLogout = () => {
     const param: SwitchWindow = {
       width: 700,
@@ -28,6 +28,22 @@ export default function HomePage() {
     window.electronAPI.deleteStore(STORAGE_KEYS.REFRESH_TOKEN);
     window.electronAPI.switchWindow(param);
   };
+
+  // 로딩 상태 처리: 스켈레톤 UI 또는 간단한 로딩 메시지를 보여줍니다.
+  if (isLoading) {
+    return <div className={styles.wrapper}>... Loading ...</div>;
+  }
+
+  // 에러 상태 처리: 에러 메시지를 보여줍니다.
+  // 전역 에러 핸들러에서 공통 팝업이 뜨고, 여기서는 페이지에 특화된 UI를 보여줄 수 있습니다.
+  if (isError) {
+    return (
+      <div className={styles.wrapper}>
+        <h2>Error!</h2>
+        <p>{error.message}</p>
+      </div>
+    );
+  }
 
   return (
     <div className={styles.wrapper}>
@@ -77,7 +93,7 @@ export default function HomePage() {
 
         <div className={styles.grid}>
           {[1, 2, 3, 4].map((_, i) => (
-            <div className={styles.card} key={i} onClick={group}>
+            <div className={styles.card} key={i} onClick={() => group('')}>
               <div className={styles.cardHeader}>
                 <span className={styles.tag}>
                   {i % 2 === 0 ? "그룹" : "개인"}
@@ -89,6 +105,29 @@ export default function HomePage() {
               <div className={styles.cardFooter}>
                 <div className={styles.members}></div>
                 <span>{i + 1}일 전 수정</span>
+              </div>
+            </div>
+          ))}
+
+          {groups?.map((groupData) => (
+            <div className={styles.card} key={groupData.id} onClick={() => group(groupData.id)}>
+              <div className={styles.cardHeader}>
+                <span className={styles.tag}>
+                  {/* 실제 데이터에 따라 태그를 표시할 수 있습니다. 예시: */}
+                  {groupData.owner.displayName ? "그룹" : "개인"}
+                </span>
+                {/* <button><FaStar /></button> */}
+              </div>
+              <h3>{groupData.name}</h3>
+              <p>{groupData.description || '설명이 없습니다.'}</p>
+              <div className={styles.cardFooter}>
+                <div className={styles.members}>
+                  {/* 멤버 아바타 표시 로직 (예시) */}
+                </div>
+                {/* date-fns 라이브러리를 사용해 날짜 포맷팅 */}
+                <span>
+                  {new Date(groupData.updatedAt).toLocaleString()} 수정
+                </span>
               </div>
             </div>
           ))}

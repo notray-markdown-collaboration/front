@@ -49,13 +49,19 @@ export default function Start() {
   }
 
   const onSubmitGoogleLogin = () => {
-    developLogin();
-    window.electronAPI.loadUrl(`${process.env.NEXT_PUBLIC_API_KEY}/api/auth/google`);
+    if (process.env.NODE_ENV === 'development') {
+      developLogin();
+      return;
+    }
+    window.electronAPI.loadUrl(`${process.env.NEXT_PUBLIC_API_URL}/auth/google`);
   };
 
   const onSubmitGithubLogin = () => {
-    developLogin();
-    window.electronAPI.loadUrl(`${process.env.NEXT_PUBLIC_API_KEY}/api/auth/github`);
+    if (process.env.NODE_ENV === 'development') {
+      developLogin();
+      return;
+    }
+    window.electronAPI.loadUrl(`${process.env.NEXT_PUBLIC_API_URL}/auth/github`);
   };
 
   return (
