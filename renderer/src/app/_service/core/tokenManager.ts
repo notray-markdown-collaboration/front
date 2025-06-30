@@ -26,6 +26,7 @@ export const tokenManager = {
       // 1. 저장된 Refresh Token 조회
       const refreshToken = await tokenManager.getRefreshToken();
 
+      console.log(refreshToken)
       if (!refreshToken) {
         throw new Error('Refresh Token이 존재하지 않습니다.');
       }

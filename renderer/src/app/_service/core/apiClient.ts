@@ -30,7 +30,6 @@ axiosInstance.interceptors.request.use(
 axiosInstance.interceptors.response.use(
   (response) => response.data, // 성공 시 response.data만 반환
   async (error) => {
-    console.log(error)
     const originalRequest = error.config as InternalAxiosRequestConfig & { _retry?: boolean };
 
     // 401 에러가 발생했고, 아직 재시도하지 않았다면 토큰 갱신을 시도합니다.
