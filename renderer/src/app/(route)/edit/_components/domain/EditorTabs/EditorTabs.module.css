@@ -1,6 +1,7 @@
 .tabs {
   display: flex;
   border-bottom: 1px solid;
+  overflow-x: auto;
 }
 
 .lightTheme {
@@ -53,7 +54,6 @@
 }
 
 .tabName {
-  overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   max-width: 120px;

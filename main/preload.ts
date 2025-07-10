@@ -11,6 +11,10 @@ export const api = {
   openFolderDialog: (): Promise<FileNode | null> => ipcRenderer.invoke('open-folder-dialog'),
   readFile: (filePath: string): Promise<{ success: boolean; content?: string; error?: string }> => ipcRenderer.invoke('read-file', filePath),
   loadUrl: (url: string): void => ipcRenderer.send('load-url', url),
+  readFolderTree: (path: string): Promise<FileNode | null> => ipcRenderer.invoke('read-folder-tree', path),
+  saveFile: (filePath: string, content: string): Promise<{ success: boolean; error?: string }> => ipcRenderer.invoke('save-file', filePath, content),
+  createFile: (filePath: string): Promise<{ success: boolean; path?: string; error?: string }> => ipcRenderer.invoke('create-file', filePath),
+  createFolder: (folderPath: string): Promise<{ success: boolean; path?: string; error?: string }> => ipcRenderer.invoke('create-folder', folderPath),
 
   // Theme API
   toggleTheme: (): Promise<'light' | 'dark'> => ipcRenderer.invoke('dark-mode:toggle'),

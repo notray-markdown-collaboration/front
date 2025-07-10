@@ -110,6 +110,41 @@ export default function MarkdownEditor() {
     }
   }, [selectedFile, editor, isMarkdownFile]); // 의존성 배열에 isMarkdownFile 추가
 
+    // ✨ 파일 저장 함수
+  const handleSave = useCallback(async () => {
+    if (!selectedFile?.path || typeof markdownContent !== 'string') {
+      console.log("저장할 파일이 선택되지 않았거나 내용이 없습니다.");
+      return;
+    }
+
+    const result = await window.electronAPI.saveFile(selectedFile.path, markdownContent);
+
+    if (result.success) {
+      console.log("파일 저장 성공!");
+    } else {
+      alert(`파일 저장 실패: ${result.error}`);
+    }
+  }, [selectedFile, markdownContent]);
+
+  // ✨ 저장 단축키(Ctrl+S / Cmd+S) 리스너 추가
+  useEffect(() => {
+    const handleKeyDown = (event: KeyboardEvent) => {
+      const isMac = navigator.platform.toUpperCase().indexOf('MAC') >= 0;
+      const shortcutPressed = (isMac ? event.metaKey : event.ctrlKey) && event.key === 's';
+
+      if (shortcutPressed) {
+        event.preventDefault();
+        handleSave();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [handleSave]);
+
+  
   // 마크다운 파일인데 에디터가 아직 준비되지 않았다면 null을 반환합니다.
   // 마크다운 파일이 아니면 에디터 객체가 필요 없으므로 이 조건에 해당하지 않습니다.
   if (isMarkdownFile && !editor) {

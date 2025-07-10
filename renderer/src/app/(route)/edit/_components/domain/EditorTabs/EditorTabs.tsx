@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import styles from "./EditorTabs.module.css";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+  faCircle,
   faFileAlt,
   faFileCode,
   faTimes,
@@ -21,11 +22,23 @@ export default function EditorTabs({
 }: EditorTabsProps) { 
   const [ openFiles, setOpenFiles ] = useState<string[]>([]);
   const { selectedFile, setSelectedFile } = useReadingFileStore();
-  const closeFile = (file: string, e: React.MouseEvent) => {
+  
+  const closeFile = async(file: string, e: React.MouseEvent) => {
     e.stopPropagation();
+    const removedIndex = openFiles.findIndex((f) => f === file);
     const newOpenFiles = openFiles.filter((f) => f !== file);
+
+    if(openFiles.length <= 1){
+      setSelectedFile(null);
+    }
+    else if( selectedFile?.path === openFiles[removedIndex]){
+      const target = removedIndex - 1 === -1 ? 0 : removedIndex - 1;
+      await handleFileClick(newOpenFiles[target]);
+    }
+    
     setOpenFiles(newOpenFiles);
   };
+
  const handleFileClick = async (filePath: string) => {
     const result = await window.electronAPI.readFile(filePath);
  
@@ -35,6 +48,7 @@ export default function EditorTabs({
       alert(`파일을 읽는 중 오류 발생: ${result.error}`);
     }
   };
+
   const themeClass = theme === "dark" ? styles.darkTheme : styles.lightTheme;
 
   useEffect(() => {
@@ -73,6 +87,7 @@ export default function EditorTabs({
               className={styles.closeButton}
             >
               <FontAwesomeIcon icon={faTimes} />
+              {/* <FontAwesomeIcon icon={faCircle} width={'50%'} height={'50%'}/> */}
             </button>
           </div>
         );

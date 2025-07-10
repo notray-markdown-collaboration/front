@@ -22,15 +22,21 @@ const Sidebar: React.FC<SidebarProps> = ({
 }) => {
   const [tree, setTree] = useState<FileNode | null>(null);
   const [openFolders, setOpenFolders] = useState<Set<string>>(new Set());
-  const { selectedFile, setSelectedFile } = useReadingFileStore();
+  // ✨ 생성 상태 관리
+  const [creationState, setCreationState] = useState<{ mode: 'file' | 'folder' } | null>(null);
+  const [newItemName, setNewItemName] = useState('');
+
+  const { selectedFile, setSelectedFile, targetUrl, setTargetUrl } = useReadingFileStore();
   const handleOpenFolder = async () => {
     const result = await window.electronAPI.openFolderDialog();
-    
+    // console.log(result);
     if (result) setTree(result);
+    setTargetUrl(String(result?.path));
     setSelectedFile(null);
   };
 
   const toggleFolder = (path: string) => {
+    setTargetUrl(path);
     setOpenFolders(prev => {
       const newSet = new Set(prev);
       newSet.has(path) ? newSet.delete(path) : newSet.add(path);
@@ -48,9 +54,60 @@ const Sidebar: React.FC<SidebarProps> = ({
     }
   };
 
+  // ✨ 파일 트리 새로고침 함수
+  const refreshFileTree = async () => {
+    if (!tree) return;
+    const refreshedTree = await window.electronAPI.readFolderTree(tree.path);
+    if (refreshedTree) {
+      setTree(refreshedTree);
+    }
+  };
+
+  // ✨ 생성 확인 핸들러
+  const handleConfirmCreation = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!newItemName || !creationState || !targetUrl) return;
+
+    const newPath = `${targetUrl}/${newItemName}`;
+    const { mode } = creationState;
+    let result;
+
+    if (mode === 'file') {
+      result = await window.electronAPI.createFile(newPath);
+    } else { // 'folder'
+      result = await window.electronAPI.createFolder(newPath);
+    }
+
+    if (result.success) {
+      await refreshFileTree();
+    } else {
+      alert(`${mode === 'file' ? '파일' : '폴더'} 생성 실패: ${result.error}`);
+    }
+
+    setCreationState(null);
+    setNewItemName('');
+  };
+
+  // ✨ 생성 취소 핸들러
+  const handleCancelCreation = () => {
+    setCreationState(null);
+    setNewItemName('');
+  };
+
+  // ✨ 생성 모드 시작 핸들러
+  const startCreation = (mode: 'file' | 'folder') => {
+    if (!targetUrl) return;
+    // 타겟 폴더가 닫혀있으면 열어줌
+    if (!openFolders.has(targetUrl)) {
+      setOpenFolders(prev => new Set(prev).add(targetUrl));
+    }
+    setCreationState({ mode });
+    setNewItemName('');
+  };
 
 
   const renderTree = (node: FileNode, depth = 0) => {
+    
     const isOpen = openFolders.has(node.path);
     const isTextFile = node.name.endsWith('.md') || node.name.endsWith('.txt');
      return (
@@ -96,6 +153,22 @@ const Sidebar: React.FC<SidebarProps> = ({
       </div>
       )}
       {isOpen && node.children?.map(child => renderTree(child, depth + 1))}
+
+      {isOpen && creationState && targetUrl === node.path && (
+        <div style={{ marginLeft: (depth + 1) * 16 }} className={styles.creationFormInline}>
+          <form onSubmit={handleConfirmCreation}>
+            <FontAwesomeIcon icon={creationState.mode === 'file' ? faFileAlt : faFolder} className={styles.creationIcon} />
+            <input
+              type="text"
+              value={newItemName}
+              onChange={(e) => setNewItemName(e.target.value)}
+              onBlur={handleCancelCreation}
+              className={styles.creationInputInline}
+              autoFocus
+            />
+          </form>
+        </div>
+      )}
       </div>
      )
   };
@@ -107,13 +180,13 @@ const Sidebar: React.FC<SidebarProps> = ({
       <div className={`${styles.header} ${themeClass}`}>
         <h2 className={styles.headerTitle}>작업 파일</h2>
         <div className={styles.headerButtons}>
-          <button className={styles.iconButton}>
+          <button className={styles.iconButton} onClick={() => startCreation('file')} disabled={!targetUrl}>
             <FontAwesomeIcon
               icon={faPlus}
               style={{ fontSize: "0.75rem", lineHeight: "1rem" }}
             ></FontAwesomeIcon>
           </button>
-          <button className={styles.iconButton}>
+          <button className={styles.iconButton} onClick={() => startCreation('folder')} disabled={!targetUrl}>
             <FontAwesomeIcon
               icon={faFolderPlus}
               style={{ fontSize: "0.75rem", lineHeight: "1rem" }}

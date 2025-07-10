@@ -38,7 +38,7 @@ export default function HomePage() {
   // 전역 에러 핸들러에서 공통 팝업이 뜨고, 여기서는 페이지에 특화된 UI를 보여줄 수 있습니다.
   if (isError) {
     return (
-      <div className={styles.wrapper}>
+      <div className={styles.wrapper} onClick={edit}>
         <h2>Error!</h2>
         <p>{error.message}</p>
       </div>
